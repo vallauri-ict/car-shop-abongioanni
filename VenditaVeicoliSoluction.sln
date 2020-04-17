@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsAppProject", "WindowsFormsApp\WindowsFormsAppProject.csproj", "{16724ABD-B7DF-4CD4-AB70-368F197D3E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppProject", "ConsoleAppProject\ConsoleAppProject.csproj", "{0E0BE4E0-CAED-4A36-98B3-614D76D6F7CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenXmlDllProject", "OpenXmlDllProject\OpenXmlDllProject.csproj", "{B4390BAA-DFD6-4A3C-9D08-0E5071349005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbDllProject", "DbDllProject\DbDllProject.csproj", "{C469A5FE-C901-469B-AFF3-0736E65F5C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Risorse", "Risorse\Risorse.csproj", "{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeicoliDllProject", "VeicoliDllProject\VeicoliDllProject.csproj", "{1158D77A-34CD-443E-962C-27AF74BEC434}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16724ABD-B7DF-4CD4-AB70-368F197D3E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16724ABD-B7DF-4CD4-AB70-368F197D3E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16724ABD-B7DF-4CD4-AB70-368F197D3E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16724ABD-B7DF-4CD4-AB70-368F197D3E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0BE4E0-CAED-4A36-98B3-614D76D6F7CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0BE4E0-CAED-4A36-98B3-614D76D6F7CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0BE4E0-CAED-4A36-98B3-614D76D6F7CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0BE4E0-CAED-4A36-98B3-614D76D6F7CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4390BAA-DFD6-4A3C-9D08-0E5071349005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4390BAA-DFD6-4A3C-9D08-0E5071349005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4390BAA-DFD6-4A3C-9D08-0E5071349005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4390BAA-DFD6-4A3C-9D08-0E5071349005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C469A5FE-C901-469B-AFF3-0736E65F5C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C469A5FE-C901-469B-AFF3-0736E65F5C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C469A5FE-C901-469B-AFF3-0736E65F5C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C469A5FE-C901-469B-AFF3-0736E65F5C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1158D77A-34CD-443E-962C-27AF74BEC434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1158D77A-34CD-443E-962C-27AF74BEC434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1158D77A-34CD-443E-962C-27AF74BEC434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1158D77A-34CD-443E-962C-27AF74BEC434}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45C4073C-3160-4878-A8F1-16093339DFAD}
+	EndGlobalSection
+EndGlobal

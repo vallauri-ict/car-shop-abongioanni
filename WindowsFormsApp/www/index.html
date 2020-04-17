@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{{mainTitle}}</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<link rel="icon" href="{{Header}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+	<script>
+		function dettagli(sender, json) {
+			console.log(json);
+			let i = parseInt($(sender).prop("id"));
+			let _mess = $("<div>", {
+				css: {
+					zIndex: 20,
+					position: "fixed",
+					top: 0,
+					left: 0,
+					width: "100%",
+					height: "100%",
+					backgroundColor: "rgba(0,0,0,0.48)",
+					addClass: "row"
+				},
+				appendTo: $("body"),
+				append: [
+					$("<div>", {
+						addClass: "info",
+						css: {
+							width: "90%",
+							zIndex: 20,
+							position: "fixed",
+							marginTop: "3.75%",
+							left: "5%",
+							height: "85%",
+							backgroundColor: "#fffff0",
+							display: "inline-block",
+							borderRadius: "5px",
+							overflow: "auto"
+						},
+						append: [
+							$("<div>", { //model
+								addClass: "col-sm-6",
+								text: json.Marca + " " + json.Modello,
+								css: {
+									marginTop: "2%",
+									fontSize: "2em",
+								}
+							}),
+							$("<div>", { //image
+								addClass: "col-sm-6 img-fluid",
+								css: {
+									backgroundImage: "url('images/" + json.ImagePath.split('\\')[json.ImagePath.split('\\').length - 1] + "')",
+									backgroundPosition: "center",
+									backgroundRepeat: "no-repeat",
+									backgroundSize: "contain",
+									height: "90%",
+									marginTop: "2.5%",
+									left: "-5%",
+									zIndex: 20
+								}
+							})/*.on("click", function() {
+                        window.open("images/" + json.ImagePath.split('\\')[json.ImagePath.split('\\').length - 1]);
+                    })*/,
+							$("<div>", {
+								text: "×",
+								css: {
+									position: "absolute",
+									right: "5px",
+									top: 0,
+									fontSize: "1.5em",
+								},
+							}).on("click", function() { //close button
+								$(_mess).fadeOut(400, function() {
+									$(this).remove();
+								});
+							}),
+							$("<table>", { //tabella info
+								addClass: "table",
+								append: [
+									getRow("Targa: ",json.Targa),
+									getRow("Cilindrata: ",json.Cilindrata + " cc"),
+									getRow("Potenza: ",json.PotenzaKw + " Kw"),
+									getRow("Immatricolazione: ",json.Immatricolazione.split('T')[0]),
+									getRow("Stato: ",json.IsUsato ? "Usato" : "Nuovo"),
+									getRow(json.IsKmZero ? "Chilometro ZERO" : "",""),
+									getRow("Chilometraggio: ",json.KmPercorsi+ " Km"),
+									getRow("Colore: ",json.Colore),
+									getRow("MarcaSella" in json ? "Marca Sella: " : "Numero AirBag",("MarcaSella" in json ? json.MarcaSella : json.NumeroAirBag))
+								],
+								css: {
+									position: "absolute",
+									left: "2%",
+									top: "15%",
+									width: "35%"
+								}
+							})
+						]
+					}).fadeIn()
+				]
+			}).fadeIn();
+		}
+		function getRow(text1,text2){
+			return $("<tr>", {
+				append: [
+					$("<th>", {
+						scope: "col",
+						text: text1
+					}),
+					$("<td>", {
+						scope: "col",
+						text: text2
+					}),
+				]
+			});
+		}
+	</script>
+</head>
+<style>
+	@font-face {
+		font-family: dr;
+		src: url("font/OpenSans-Regular.ttf");
+	}
+	header{
+	}
+	h1{
+		font-family: dr;
+		color: #fffff0;
+		display: inline-block;
+		border-bottom: #CAAC0C 3px solid;
+		padding-bottom: 5px;
+		width: 80%;
+	}
+	footer
+	{
+		color:ivory;
+		font-family: dr;
+	}
+
+	a{
+		width:20%;
+		height:40px;
+	}
+	body{
+		height:100%;
+		width:100%;
+		/*background: url("img/ict-wallpaper-11-1024x320.jpg");*/
+		background-size: cover;
+		position: fixed;
+		z-index: -1;
+		padding:0 !important;
+	}
+	.mail-link{
+		position: relative!important;
+		top:-10%!important;
+		right:1%
+	}
+	.spacing{
+		margin:0!important;
+		padding:0!important;
+		height:0!important;
+	}
+	.work {
+		margin-bottom: 40px;
+		background-color: #CAAC0C;
+		border-radius: 5px;
+	}
+	.work .work-grid {
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		position: relative;
+		height: 300px;
+		margin-bottom: 20px;
+		-webkit-transition: 0.3s;
+		-o-transition: 0.3s;
+		transition: 0.3s;
+	}
+	.work .work-grid .inner {
+		display: table;
+		height: 300px;
+		width: 100.1%;
+		opacity: 0;
+		background: rgba(237, 235, 232, 0.9);
+		-webkit-transition: 0.3s;
+		-o-transition: 0.3s;
+		transition: 0.3s;
+		border-radius: 5px;
+	}
+	@media screen and (max-width: 768px) {
+		.work .work-grid .inner {
+			opacity: 1;
+			background: rgba(237, 235, 232, 0.7);
+		}
+	}
+	.work .work-grid .inner .desc {
+		display: table-cell;
+		vertical-align: middle;
+		padding: 40px;
+	}
+	.work .work-grid .inner .desc h3 {
+		font-size: 14px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		margin-bottom: 5px;
+		font-weight: bold;
+		line-height: 24px;
+	}
+	.work .work-grid .inner .desc h3 a {
+		color: #000;
+	}
+	.work .work-grid .inner .desc .cat {
+		font-size: 11px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+	}
+	@media screen and (max-width: 768px) {
+		.work .work-grid .inner .desc .cat {
+			color: #333333;
+		}
+	}
+	.work:hover .inner, .work:focus .inner {
+		opacity: 1;
+	}
+	.work:hover .desc h3 a, .work:focus .desc h3 a {
+		color: #cabcab;
+	}
+	.gradient{
+		height:100%;
+		width:100%;
+		background: #0F2027;  /* fallback for old browsers */
+		background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+		background: linear-gradient(to left, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+		margin:0 !important;
+	}
+	.input,.input-group-text{
+		color:#fffff0 !important;
+		background: #44444400 !important;
+		border:none !important;
+	}
+	.side {
+		display: flex !important;
+		align-items: flex-end !important;
+		padding-bottom: 8px;
+	}
+	.search{
+		margin-bottom: 0!important;
+		border-bottom: #CAAC0C 3px solid !important;
+	}
+	@media screen and (max-width: 600px) {
+		.side{
+			margin-top: 5%!important;
+			margin-left: 5%!important;
+			padding-right: 0!important;
+		}
+		h1{
+			width:100%!important;
+		}
+		.search{
+			margin: 0!important;
+		}
+		.mail-link{
+			right:0%
+		}
+	}
+</style>
+
+<body class="container-fluid">
+<div class="row gradient">
+	<header id="pluto" class="col-sm-12 row" style="margin-top: 30px;margin-right: 0!important;padding-right: 0!important;">
+		<div id="minnie" class="col-sm-12">
+			<div class="row">
+				<div class="col-sm-6" style="padding-left: 0">
+					<h1 class="display-4 text-right">{{Header}}</h1>
+				</div>
+				<div class="col-sm-6 row side" >
+					<!--<b class="col-sm-6 text-center" style="font-family:dr;color:#fffff0;margin-bottom: 20px !important;">Inserisci uno o più termini per effettuare la ricerca</b>-->
+					<div class="form-group input-group col-sm-10 offset-4 " >
+						<a class="col-sm-10 btn btn-outline-light mail-link" href="mailto:{{adminMail}}?subject=Domanda Veicoli">
+							Fai una domanda!
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="col-sm-1 spacing" ></div>
+	<div  class="col-sm-10">{{mainContent}}</div>
+	<div name="Auto" id="0" onClick='dettagli(this,{"NumeroAirBag":15,"Marca":"Mercedes-Benz","Modello":"Classe C","Cilindrata":1800,"PotenzaKw":110.0,"Immatricolazione":"2020-01-03T18:21:00.0208406+01:00","IsUsato":false,"IsKmZero":true,"KmPercorsi":0,"Colore":"Grigio","Prezzo":30000.0,"ImagePath":".\\images\\3.jpg"})'
+		 class="col-md-4 text-center animate-box">
+		<div class="work">
+			<div class="work-grid" style="background-image:url('images\noimg.png')"><div>
+				<div class="inner">
+					<div class="desc">
+						<h3 style="font-size:1.75em">Mercedes-Benz Classe C</h3>
+						<span class="cat" style=" color:#000;font-size:1em">Nuovo</span>
+						<br><span class="cat" style=" color:#000;font-size:1em" >30.000€</span>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="col-sm-12 text-center">
+		<span>{{Row1}}</span><br>
+		<span>{{Row2}}</span>
+	</footer>
+</div>
+</body>
+</html>

@@ -21,10 +21,10 @@ Le classi presenti sono:
 - **SqlServerUtils**: Contiene metodi generici e statici per interazione con SqlServer DB
 
 ## SCHEMA DLL
-![alt text](https://github.com/abongioanni/VenditaVeicoliSoluction/blob/master/WindowsFormsApp/www/images/DLL.PNG "Schema DLL")
+![alt text](https://github.com/vallauri-ict/car-shop-abongioanni/blob/master/WindowsFormsApp/www/images/DLL.PNG "Schema DLL")
 
 ## SCHEMA DB
-![alt text](https://github.com/abongioanni/VenditaVeicoliSoluction/blob/master/image.png "Schema DB")
+![alt text](https://github.com/vallauri-ict/car-shop-abongioanni/blob/master/image.png "Schema DB")
 
 ## Form
 
@@ -74,13 +74,13 @@ C'è anche la possibilità di **modificare** le proprietà del veicolo.
 ## Console
 Questo progetto permette di utilizzare il gestore del salone da una console con la seguente shell:
 
-- -h: elenco comandi
-- -a: aggiungi veicolo
-- -v [targa]: visualizza dettagli veicolo con la targa [targa]
-- -e [targa] [proprietà]: permette di modificare il campo [proprietà] del veicolo [targa]
-- -d [targa]: elimina il veicolo con targa [targa]
-- -word: esporta l'elenco dei veicoli in un documento word
-- -excel: esporta l'elenco dei veicoli in un foglio di excel
+- help: elenco comandi
+- a: aggiungi veicolo
+- v [targa]: visualizza dettagli veicolo con la targa [targa]
+- e [targa] [proprietà]: permette di modificare il campo [proprietà] del veicolo [targa]
+- d [targa]: elimina il veicolo con targa [targa]
+- word: esporta l'elenco dei veicoli in un documento word
+- excel: esporta l'elenco dei veicoli in un foglio di excel
 
 
 Per informazioni contattate Alberto Bongioanni con una mail: a.bongioanni.0746@vallauri.edu

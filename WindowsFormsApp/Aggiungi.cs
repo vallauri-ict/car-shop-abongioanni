@@ -96,6 +96,7 @@ namespace WindowsFormsApp {
                     if (!cmb.Items.Contains(dato) && dato != "")
                         cmb.Items.Add(dato);
                 }
+                
             }
         }//CARICAMENTO DELLA COMBO DA FILE
     }

@@ -196,35 +196,82 @@ namespace Risorse {
                 connection.Open();
                 OleDbCommand cmd = new OleDbCommand
                 {
-                    CommandText = "INSERT INTO Veicoli VALUES ('@targa', @automoto,'@marca', '@modello', @cilindrata, @potenzakw," +
-                    "@immatricolazione,@usato,@kmzero,@kmpercorsi,'@colore',@prezzo,'@imagepath','@caratteristica');",
+                    CommandText = "INSERT INTO Veicoli VALUES (@targa, @automoto,@marca, @modello, @cilindrata, @potenzakw," +
+                    "@immatricolazione,@usato,@kmzero,@kmpercorsi,@colore,@prezzo,@imagepath,@caratteristica);",
                     Connection=connection
                 };
                 cmd.Parameters.Add("@targa",OleDbType.VarChar,255).Value= v.Targa;
-                cmd.Parameters.Add("@automoto",OleDbType.Boolean,2).Value = (v is Auto);
-                cmd.Parameters.Add("@marca", OleDbType.VarChar, 255).Value = v.Marca;
-                cmd.Parameters.Add("@modello", OleDbType.VarChar, 255).Value = v.Modello;
-                cmd.Parameters.Add("@cilindrata", OleDbType.Integer, 32).Value = v.Cilindrata;
-                cmd.Parameters.Add("@potenzakw", OleDbType.Double, 32).Value = v.PotenzaKw;
-                cmd.Parameters.Add("@immatricolazione", OleDbType.DBDate, 32).Value = v.Immatricolazione;
-                cmd.Parameters.Add("@usato", OleDbType.Boolean, 2).Value = v.IsUsato;
-                cmd.Parameters.Add("@kmzero", OleDbType.Boolean, 2).Value = v.IsKmZero;
-                cmd.Parameters.Add("@kmpercorsi", OleDbType.Integer, 32).Value = v.KmPercorsi; 
-                cmd.Parameters.Add("@colore", OleDbType.VarChar, 255).Value = v.Colore;
-                cmd.Parameters.Add("@prezzo", OleDbType.Double, 32).Value = v.Prezzo;
-                cmd.Parameters.Add("@imagepath", OleDbType.VarChar, 255 ).Value = v.ImagePath;
+                cmd.Parameters.Add("@automoto",OleDbType.Boolean).Value = (v is Auto);
+                cmd.Parameters.Add("@marca", OleDbType.VarChar,255).Value = v.Marca;
+                cmd.Parameters.Add("@modello", OleDbType.VarChar,255).Value = v.Modello;
+                cmd.Parameters.Add("@cilindrata", OleDbType.Integer).Value = v.Cilindrata;
+                cmd.Parameters.Add("@potenzakw", OleDbType.Double).Value = v.PotenzaKw;
+                cmd.Parameters.Add("@immatricolazione", OleDbType.DBDate).Value = v.Immatricolazione;
+                cmd.Parameters.Add("@usato", OleDbType.Boolean).Value = v.IsUsato;
+                cmd.Parameters.Add("@kmzero", OleDbType.Boolean).Value = v.IsKmZero;
+                cmd.Parameters.Add("@kmpercorsi", OleDbType.Integer).Value = v.KmPercorsi; 
+                cmd.Parameters.Add("@colore", OleDbType.VarChar,255).Value = v.Colore;
+                cmd.Parameters.Add("@prezzo", OleDbType.Double).Value = v.Prezzo;
+                cmd.Parameters.Add("@imagepath", OleDbType.VarChar,255 ).Value = v.ImagePath;
                 string c = (v is Auto ? (v as Auto).NumeroAirBag.ToString() : (v as Moto).MarcaSella);
-                cmd.Parameters.Add("@caratteristica", OleDbType.VarChar, 255).Value =c;
+                cmd.Parameters.Add("@caratteristica", OleDbType.VarChar,255).Value =c;
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public static void DeleteCommand(Veicolo v, string connString)
+        {
+            using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati
+            {
+                connection.Open();
+                OleDbCommand cmd = new OleDbCommand
+                {
+                    CommandText = "DELETE FROM Veicoli WHERE Targa=@targa;",
+                    Connection = connection
+                };
+                cmd.Parameters.Add("@targa", OleDbType.VarChar, 255).Value = v.Targa;
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public static void UpdateCommand(Veicolo v, string connString)
+        {
+            using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati
+            {
+                connection.Open();
+                OleDbCommand cmd = new OleDbCommand
+                {
+                    CommandText = "UPDATE Veicoli SET Targa=@targa,AutoMoto=@automoto,Marca=@marca, Modello=@modello, Cilindrata=@cilindrata,PotenzaKw=@potenzakw," +
+                    "Immatricolazione=@immatricolazione,Usato=@usato,KmZero=@kmzero," +
+                    "KmPercorsi=@kmpercorsi,Colore=@colore,Prezzo=@prezzo,ImagePath=@imagepath,Caratteristica=@caratteristica WHERE Targa=@targa;",
+                    Connection = connection
+                };
+                cmd.Parameters.Add("@targa", OleDbType.VarChar, 255).Value = v.Targa;
+                cmd.Parameters.Add("@automoto", OleDbType.Boolean).Value = (v is Auto);
+                cmd.Parameters.Add("@marca", OleDbType.VarChar, 255).Value = v.Marca;
+                cmd.Parameters.Add("@modello", OleDbType.VarChar, 255).Value = v.Modello;
+                cmd.Parameters.Add("@cilindrata", OleDbType.Integer).Value = v.Cilindrata;
+                cmd.Parameters.Add("@potenzakw", OleDbType.Double).Value = v.PotenzaKw;
+                cmd.Parameters.Add("@immatricolazione", OleDbType.DBDate).Value = v.Immatricolazione;
+                cmd.Parameters.Add("@usato", OleDbType.Boolean).Value = v.IsUsato;
+                cmd.Parameters.Add("@kmzero", OleDbType.Boolean).Value = v.IsKmZero;
+                cmd.Parameters.Add("@kmpercorsi", OleDbType.Integer).Value = v.KmPercorsi;
+                cmd.Parameters.Add("@colore", OleDbType.VarChar, 255).Value = v.Colore;
+                cmd.Parameters.Add("@prezzo", OleDbType.Double).Value = v.Prezzo;
+                cmd.Parameters.Add("@imagepath", OleDbType.VarChar, 255).Value = v.ImagePath;
+                string c = (v is Auto ? (v as Auto).NumeroAirBag.ToString() : (v as Moto).MarcaSella);
+                cmd.Parameters.Add("@caratteristica", OleDbType.VarChar, 255).Value = c;
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+            }
+
+        }
+
+
         public static string createTableVeicoliSqlString =
             $"CREATE TABLE Veicoli (" +
-                $"Targa varchar(255) NOT NULL PRIMARY KEY," +
-                $"AutoMoto boolean," +
-                $"Marca varchar(255)," +
-                $"Modello varchar(255)," +
+                $"Modello varchar(255) NOT NULL PRIMARY KEY," +
                 $"Cilindrata int," +
                 $"PotenzaKw double," +
                 $"Immatricolazione datetime," +
@@ -243,7 +290,7 @@ namespace Risorse {
             {
                 OleDbCommand cmd = new OleDbCommand
                 {
-                    CommandText = "INSERT INTO Storico VALUES ('@veicolovenduto',@prezzovendita, #@dataconsegna#,@consegnato,@cliente);",
+                    CommandText = "INSERT INTO Storico VALUES (@veicolovenduto,@prezzovendita, @dataconsegna,@consegnato,@cliente);",
                     Connection=connection
                 };
 
@@ -255,36 +302,20 @@ namespace Risorse {
                 AccessUtils.ExecQuery(cmd);
             }
         }
-        public static void UpdateCommand(Veicolo v,string connString)
+        public static void DeleteCommand(Vendita v, string connString)
         {
             using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati
             {
+                connection.Open();
                 OleDbCommand cmd = new OleDbCommand
                 {
-                    CommandText = "UPDATE Veicoli SET Targa='@targa',AutoMoto=@automoto,Marca='@marca', Modello='@modello', Cilindrata=@cilindrata,PotenzaKw=@potenzakw," +
-                    "Immatricolazione=#@immatricolazione#,Usato=@usato,KmZero=@kmzero," +
-                    "KmPercorsi=@kmpercorsi,Colore='@colore',Prezzo=@prezzo,ImagePath='@imagepath',Caratteristica='@caratteristica' WHERE Targa=@targa;",
-                    Connection=connection
+                    CommandText = "DELETE FROM Storico WHERE VeicoloVenduto=@veicolovenduto;",
+                    Connection = connection
                 };
-
-                cmd.Parameters.AddWithValue("@targa", v.Targa);
-                cmd.Parameters.AddWithValue("@automoto", v is Auto);
-                cmd.Parameters.AddWithValue("@marca", v.Marca);
-                cmd.Parameters.AddWithValue("@modello", v.Modello);
-                cmd.Parameters.AddWithValue("@cilindrata", v.Cilindrata);
-                cmd.Parameters.AddWithValue("@potenzakw", v.PotenzaKw);
-                cmd.Parameters.AddWithValue("@immatricolazione", v.Immatricolazione.ToShortDateString());
-                cmd.Parameters.AddWithValue("@usato", v.IsUsato);
-                cmd.Parameters.AddWithValue("@kmzero", v.IsKmZero);
-                cmd.Parameters.AddWithValue("@kmpercorsi", v.KmPercorsi);
-                cmd.Parameters.AddWithValue("@colore", v.Colore);
-                cmd.Parameters.AddWithValue("@prezzo", v.Prezzo);
-                cmd.Parameters.AddWithValue("@imagepath", v.ImagePath);
-                string c = (v is Auto ? (v as Auto).NumeroAirBag.ToString() : (v as Moto).MarcaSella);
-                cmd.Parameters.AddWithValue("@caratteristica", c);
-                AccessUtils.ExecQuery(cmd);
+                cmd.Parameters.Add("@veicolovenduto", OleDbType.VarChar, 255).Value = v.MezzoVenduto.Targa;
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
             }
-
         }
 
         public static void UpdateCommand(Vendita v,string connString)
@@ -293,8 +324,8 @@ namespace Risorse {
             {
                 OleDbCommand cmd = new OleDbCommand
                 {
-                    CommandText = "UPDATE Storico SET VeicoloVenduto='@veicolovenduto',PrezzoVendita=@prezzovendita," +
-                "DataConsegna= #@dataconsegna#,Consegnato=@consegnato,Cliente=@cliente WHERE VeicoloVenduto=@veicolovenduto;",
+                    CommandText = "UPDATE Storico SET VeicoloVenduto=@veicolovenduto,PrezzoVendita=@prezzovendita," +
+                "DataConsegna= @dataconsegna,Consegnato=@consegnato,Cliente=@cliente WHERE VeicoloVenduto=@veicolovenduto;",
                     Connection=connection
                 };
 

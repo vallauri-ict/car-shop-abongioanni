@@ -313,9 +313,19 @@ namespace WindowsFormsApp {
                 this.dgvDettagli.SelectionChanged += new EventHandler(this.DgvDettagli_SelectionChanged);
 
                 Image image;
-                using (Stream stream = File.OpenRead(this.Mezzo.ImagePath))
+                try
                 {
-                    image = System.Drawing.Image.FromStream(stream);
+                    using (Stream stream = File.OpenRead(this.Mezzo.ImagePath))
+                    {
+                        image = System.Drawing.Image.FromStream(stream);
+                    }
+                }
+                catch
+                {
+                    using (Stream stream = File.OpenRead(Path.Combine(FormMain.imageFolderPath, "noimg.png")))
+                    {
+                        image = System.Drawing.Image.FromStream(stream);
+                    }
                 }
                 this.pcb.BackgroundImage = image;
                 this.pcb.BackgroundImageLayout = ImageLayout.Zoom;
@@ -443,12 +453,6 @@ namespace WindowsFormsApp {
                 {
                     switch (this.dgvDettagli.CurrentCell.RowIndex)
                     {
-                        case 0:
-                            m = Interaction.InputBox("Inserisci modifica alla targa:", "Modifica", this.Mezzo.Targa);
-                            this.Mezzo.Targa = m;
-                            this.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Targa;
-                            this.lbl.Text = $"{(this.Mezzo.Marca.ToUpper() == "MERCEDES-BENZ" ? "MB" : this.Mezzo.Marca)} {this.Mezzo.Modello} - {this.Mezzo.Targa} {this.Mezzo.Stato}";
-                            break;
                         case 1:
                             m = Interaction.InputBox("Inserisci modifica alla cilindrata (cc):", "Modifica", this.Mezzo.Cilindrata.ToString());
                             this.Mezzo.Cilindrata = Convert.ToInt32(m.ToString().Split(' ')[0]);

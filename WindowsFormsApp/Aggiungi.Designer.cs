@@ -58,6 +58,7 @@ namespace WindowsFormsApp {
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Aggiungi));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtColore = new System.Windows.Forms.TextBox();
             this.txtTarga = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnImage = new System.Windows.Forms.Button();
@@ -87,7 +88,6 @@ namespace WindowsFormsApp {
             this.btnAggiungi = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.txtColore = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NPrezzo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAB)).BeginInit();
@@ -133,6 +133,16 @@ namespace WindowsFormsApp {
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1020, 539);
             this.panel1.TabIndex = 27;
+            // 
+            // txtColore
+            // 
+            this.txtColore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.txtColore.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtColore.ForeColor = System.Drawing.SystemColors.Window;
+            this.txtColore.Location = new System.Drawing.Point(451, 169);
+            this.txtColore.Name = "txtColore";
+            this.txtColore.Size = new System.Drawing.Size(177, 24);
+            this.txtColore.TabIndex = 60;
             // 
             // txtTarga
             // 
@@ -180,6 +190,7 @@ namespace WindowsFormsApp {
             this.cmbMarca.Location = new System.Drawing.Point(149, 18);
             this.cmbMarca.Name = "cmbMarca";
             this.cmbMarca.Size = new System.Drawing.Size(176, 26);
+            this.cmbMarca.Sorted = true;
             this.cmbMarca.TabIndex = 1;
             // 
             // NPrezzo
@@ -495,16 +506,6 @@ namespace WindowsFormsApp {
             this.label1.Size = new System.Drawing.Size(92, 18);
             this.label1.TabIndex = 27;
             this.label1.Text = "Tipo veicolo:";
-            // 
-            // txtColore
-            // 
-            this.txtColore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.txtColore.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtColore.ForeColor = System.Drawing.SystemColors.Window;
-            this.txtColore.Location = new System.Drawing.Point(451, 169);
-            this.txtColore.Name = "txtColore";
-            this.txtColore.Size = new System.Drawing.Size(177, 24);
-            this.txtColore.TabIndex = 60;
             // 
             // Aggiungi
             // 

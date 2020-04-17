@@ -465,8 +465,7 @@ namespace WindowsFormsApp {
             {
                 foreach (Veicolo v in listaVeicoliEliminati)
                 {
-                    string sql = $"DELETE FROM Veicoli WHERE Targa='{v.Targa}';";
-                    AccessUtils.ExecQuery(FormMain.accessDbPath, sql);
+                    VeicoliUtilities.DeleteCommand(v, connStr);
                 }
                 foreach (Veicolo v in listaVeicoliAggiunti)
                 {
@@ -487,7 +486,6 @@ namespace WindowsFormsApp {
                 foreach (Vendita v in storico.GetVenditaAll())
                 {
                     VeicoliUtilities.UpdateCommand(v,connStr);
-                    //MySqlUtils.ExecQuery(FormMain.mysqlDb, sql);
                 }
 
                 MessageBox.Show("Modifiche salvate!", "Salva", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -592,7 +590,7 @@ namespace WindowsFormsApp {
             {
                 string json = JsonConvert.SerializeObject(item);
                 newVeicoli += $"\n<div name=\"" + (item is Auto ? "Auto" : "Moto") +
-                    "\" id=\"" + (i++) + "\" onClick='dettagli(this," + json + ")' class=\"col-md-4 text-center animate-box\">" +
+                    "\" id=\"" + (i++) + "\" onClick='dettagli(this," + json + ")' class=\"col-sm-4 text-center animate-box\">" +
                     "<div class=\"work\">" +
                     "<div class=\"work-grid\" " +
                     "style=\"background-image:url('" + item.ImagePath.Replace('\\', '/').Substring(2) + "')\">  " +

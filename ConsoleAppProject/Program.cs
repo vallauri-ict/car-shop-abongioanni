@@ -151,7 +151,7 @@ namespace ConsoleAppProject {
                                 {
                                     Console.Write("Inserisci nuovo " + proprieta + ": ");
                                     v[proprieta.Substring(0, 1) + proprieta.Substring(1).ToLower()] = Console.ReadLine();
-                                    AccessUtils.ExecQuery(dbPath, $@"UPDATE Veicoli SET {proprieta}={(v[proprieta] is string ? "'" : "")}{(v[proprieta] is DateTime ? "#" : "")}{v[proprieta]}{(v[proprieta] is DateTime ? "#" : "")}{(v[proprieta] is string ? "'" : "")} WHERE Targa={v.Targa};");
+                                    VeicoliUtilities.UpdateCommand(v,connStr);
                                 }
                                 catch { Console.WriteLine("Formato valore immesso errato!"); }
                             }
@@ -192,7 +192,7 @@ namespace ConsoleAppProject {
                                 if (Console.ReadLine().ToUpper() == "S")
                                 {
                                     listaVeicoli.Remove(v);
-                                    AccessUtils.ExecQuery(dbPath, $@"DELETE FROM Veicoli WHERE Targa='{v.Targa}';");
+                                    VeicoliUtilities.DeleteCommand(v,connStr);
                                     Console.WriteLine("Veicolo eliminato");
                                 }
                                 break;

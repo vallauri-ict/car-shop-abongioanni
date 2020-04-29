@@ -16,15 +16,9 @@ Le classi presenti sono:
 - **VeicoliUtils**: Contiene metodi statici per la generazione di stringe sql facilitando la coostruzione delle più comuni
 - **Card**: Oggetto grafico
 - **OpenXmlUtils**: Contiene metodi generici per Word Processing
-- **AccessUtils**: Contiene metodi generici e statici per interazione con Access DB
-- **MySqlUtils**: Contiene metodi generici e statici per interazione con MySql DB
-- **SqlServerUtils**: Contiene metodi generici e statici per interazione con SqlServer DB
 
 ## SCHEMA DLL
 ![alt text](https://github.com/vallauri-ict/car-shop-abongioanni/blob/master/WindowsFormsApp/www/images/DLL.PNG "Schema DLL")
-
-## SCHEMA DB
-![alt text](https://github.com/vallauri-ict/car-shop-abongioanni/blob/master/image.png "Schema DB")
 
 ## Form
 

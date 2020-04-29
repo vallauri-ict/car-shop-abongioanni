@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ConsoleAppProject.Properties {
+namespace Risorse.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ConsoleAppProject.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleAppProject.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Risorse.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,15 +57,6 @@ namespace ConsoleAppProject.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a Veicoli.accdb.
-        /// </summary>
-        internal static string ACCESS_DB_NAME {
-            get {
-                return ResourceManager.GetString("ACCESS_DB_NAME", resourceCulture);
             }
         }
     }

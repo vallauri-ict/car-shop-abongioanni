@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace VenditaVeicoliDllProject {
     [Serilizable()]
@@ -18,7 +17,7 @@ namespace VenditaVeicoliDllProject {
                     bool isUsato,
                     bool isKmZero,
                     int kmPercorsi,
-                    string colore, int nAB,double prezzo) : base(marca, modello,targa, cilindrata, potenzaKw, immatricolazione, isUsato, isKmZero, kmPercorsi, colore,prezzo)
+                    string colore, int nAB, double prezzo) : base(marca, modello, targa, cilindrata, potenzaKw, immatricolazione, isUsato, isKmZero, kmPercorsi, colore, prezzo)
         {
             this.NumeroAirBag = nAB;
         }

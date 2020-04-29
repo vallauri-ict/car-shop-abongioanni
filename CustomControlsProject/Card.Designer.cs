@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp
+﻿namespace CustomControlsProject
 {
     partial class Card
     {

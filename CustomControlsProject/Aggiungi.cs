@@ -2,27 +2,25 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Risorse;
 using VenditaVeicoliDllProject;
 
-namespace WindowsFormsApp {
+namespace CustomControlsProject {
     public partial class Aggiungi : UserControl {
-        private readonly FlowLayoutPanel pnlMain;
-        private readonly TabControl Tb;
 
-        public Aggiungi(FlowLayoutPanel pnl, TabControl t)
+        public delegate void Va(Veicolo v, Aggiungi a);
+        public event Va VeicoloAggiunto;
+
+        public Aggiungi()
         {
             InitializeComponent();
-            this.pnlMain = pnl;
-            this.Tb = t;
             this.txtSella.Visible = false;
             this.lblChange.Text = "Numero AirBag:";
             //CaricaCombo();
-            CaricaCombo(Path.Combine(FormMain.fileVari, "MarcheAuto.txt"), this.cmbMarca);//CARICO LA COMBOBOX DELLE MARCHE
+            CaricaCombo(Properties.Resources.AUTO_BRAND, this.cmbMarca);//CARICO LA COMBOBOX DELLE MARCHE
             this.cmbMarca.SelectedIndex = 0;
         }
 
-        private string img = "";//PATH IMMAG
+        public string img = "";//PATH IMMAG
         private void BtnAggiungi_Click(object sender, EventArgs e)
         {
             //AGGIUNTA VEICOLO
@@ -33,25 +31,11 @@ namespace WindowsFormsApp {
                 v = new Auto(this.cmbMarca.Text.ToString(), txtModello.Text, this.txtTarga.Text, Convert.ToInt32(this.NCilindrata.Value), Convert.ToDouble(this.NPotenza.Value), this.dateTimePicker1.Value.Date, this.chkUsato.Checked, this.chkKm0.Checked, Convert.ToInt32(this.NCilometraggio.Value), txtColore.Text, Convert.ToInt32(this.NAB.Value), Convert.ToDouble(this.NPrezzo.Value));
             else
                 v = new Moto(this.cmbMarca.Text.ToString(), txtModello.Text, this.txtTarga.Text, Convert.ToInt32(this.NCilindrata.Value), Convert.ToDouble(this.NPotenza.Value), this.dateTimePicker1.Value.Date, this.chkUsato.Checked, this.chkKm0.Checked, Convert.ToInt32(this.NCilometraggio.Value), txtColore.Text, this.txtSella.Text, Convert.ToDouble(this.NPrezzo.Value));
-            try
-            {
-                string pth = this.img.Split('\\')[this.img.Split('\\').Length - 1];//COPIO L'IMMAGINE DAL PATH ORIGINALE ALLA CARTELLA /WWW/IMAGES
-                if (!File.Exists(Path.Combine(FormMain.imageFolderPath, pth)))
-                    File.Copy(this.img, Path.Combine(FormMain.imageFolderPath, pth));
-                v.ImagePath = Path.Combine(FormMain.imageFolderPath, pth);
-            }
-            catch
-            {
-                v.ImagePath = "";
-            }
-            FormMain.listaVeicoliAggiunti.Add(v);
-            FormMain.modifica = true;
-            new Card(v, this.pnlMain, this.Tb);
-            this.img = "";
+            VeicoloAggiunto(v, this);
             string s = "";
             for (int i = 0; i < this.cmbMarca.Items.Count; i++)
                 s += this.cmbMarca.Items[i] + "\n";
-            File.WriteAllText(Path.Combine(FormMain.fileVari, this.NAB.Visible ? "MarcheAuto.txt" : "MarcheMoto.txt"), s);
+            File.WriteAllText(this.NAB.Visible ? Properties.Resources.AUTO_BRAND : Properties.Resources.MOTO_BRAND, s);
         }
 
         private void ChkUsato_CheckedChanged(object sender, EventArgs e)
@@ -75,14 +59,14 @@ namespace WindowsFormsApp {
         private void BunifuImageButton1_Click(object sender, EventArgs e)
         {
             bool x = !this.NAB.Visible;
-            (sender as Button).BackgroundImage = !x ? Image.FromFile(Path.Combine(FormMain.imageFolderPath, "1358761.png")) : Image.FromFile(Path.Combine(FormMain.imageFolderPath, "car-icon.png"));
+            (sender as Button).BackgroundImage = !x ? Properties.Resources.MOTO_ICON : Properties.Resources.MOTO_ICON;
             this.NAB.Visible = x;
             this.txtSella.Visible = !x;
             this.lblChange.Text = (x ? "Numero AirBag:" : "Marca Sella:");
             this.NCilindrata.Value = this.NCilindrata.Minimum = (x ? 900 : 50);
             this.NCilindrata.Increment = (x ? 100 : 25);
             this.cmbMarca.Items.Clear();
-            CaricaCombo(Path.Combine(FormMain.fileVari,x ? "MarcheAuto.txt" : "MarcheMoto.txt"), this.cmbMarca);//CARICO LA COMBOBOX DELLE MARCHE
+            CaricaCombo(x ? Properties.Resources.AUTO_BRAND : Properties.Resources.MOTO_BRAND, this.cmbMarca);//CARICO LA COMBOBOX DELLE MARCHE
             this.cmbMarca.SelectedIndex = 0;
         }
 
@@ -96,7 +80,7 @@ namespace WindowsFormsApp {
                     if (!cmb.Items.Contains(dato) && dato != "")
                         cmb.Items.Add(dato);
                 }
-                
+
             }
         }//CARICAMENTO DELLA COMBO DA FILE
     }

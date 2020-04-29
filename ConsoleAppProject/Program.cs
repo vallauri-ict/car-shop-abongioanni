@@ -13,21 +13,20 @@ namespace ConsoleAppProject {
         private static void Main()
         {
             string resourcesDirectoryPath = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\Risorse\\Resources";
-            string dbPath = Path.Combine(resourcesDirectoryPath, "Veicoli.accdb");
-            string connStr = $"Provider=Microsoft.Ace.Oledb.12.0;Data Source={dbPath};";
+            string accessDbPath = Path.Combine(resourcesDirectoryPath, Properties.Resources.ACCESS_DB_NAME);
+            string connStr = $"Provider=Microsoft.Ace.Oledb.12.0;Data Source={accessDbPath};";
 
             SerializableBindingList<Veicolo> listaVeicoli = new SerializableBindingList<Veicolo>();
             try
             {
-                AccessUtils.ExecQuery(dbPath, VeicoliUtilities.createTableVeicoliSqlString);
-                AccessUtils.ExecQuery(dbPath, VeicoliUtilities.createTableStoricoSqlString);
+                new VeicoliCommands().CreateTable(connStr);
             }
             catch (System.Data.OleDb.OleDbException)
             {
 
             }
 
-            DataTable t = AccessUtils.GetRows(dbPath, "SELECT * FROM Veicoli;");
+            DataTable t = AccessUtils.GetRows(accessDbPath, "SELECT * FROM Veicoli;");
             //VeicoliDataSet.VeicoliDataTable t = new VeicoliDataSet.VeicoliDataTable();
 
             foreach (DataRow r in t.Rows)
@@ -88,7 +87,7 @@ namespace ConsoleAppProject {
                             else
                                 (v as Moto).MarcaSella = AskToSet("Inserisci la marca della sella (x per uscire): ");
                             listaVeicoli.Add(v);
-                            VeicoliUtilities.InsertCommand(v,connStr);
+                            new VeicoliCommands().Insert(v, connStr);
                             Console.WriteLine("Veicolo Aggiunto!");
                             Console.ReadKey();
                         }
@@ -151,7 +150,7 @@ namespace ConsoleAppProject {
                                 {
                                     Console.Write("Inserisci nuovo " + proprieta + ": ");
                                     v[proprieta.Substring(0, 1) + proprieta.Substring(1).ToLower()] = Console.ReadLine();
-                                    VeicoliUtilities.UpdateCommand(v,connStr);
+                                    new VeicoliCommands().Update(v, connStr);
                                 }
                                 catch { Console.WriteLine("Formato valore immesso errato!"); }
                             }
@@ -192,7 +191,7 @@ namespace ConsoleAppProject {
                                 if (Console.ReadLine().ToUpper() == "S")
                                 {
                                     listaVeicoli.Remove(v);
-                                    VeicoliUtilities.DeleteCommand(v,connStr);
+                                    new VeicoliCommands().Delete(v, connStr);
                                     Console.WriteLine("Veicolo eliminato");
                                 }
                                 break;

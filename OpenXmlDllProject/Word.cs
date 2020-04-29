@@ -4,13 +4,10 @@ using System.IO;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Office.CustomUI;
 using A = DocumentFormat.OpenXml.Drawing;
 using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
-using System.Xml;
-using System;
 
 namespace OpenXmlDllProject {
     public class WordParameter {
@@ -372,80 +369,6 @@ namespace OpenXmlDllProject {
         }
 
         public static TableProperties GetTableProperties(
-            string topBorderColor = "#00000000",
-            string leftBorderColor = "#0000000",
-            string bottomBorderColor = "#0000000",
-            string rightBorderColor = "#0000000",
-            string insVerticalBorder = "#0000000",
-            string insHorizontalBorder = "#0000000",
-            BorderValues b = BorderValues.None,
-            string tableWidth = "2500"
-            )
-        {
-            TableProperties tblProperties = new TableProperties();
-            TableBorders tblBorders = new TableBorders();
-
-            TableCellVerticalAlignment tcVA = new TableCellVerticalAlignment
-            {
-                Val = TableVerticalAlignmentValues.Center
-            };
-            tblBorders.AppendChild(tcVA);
-
-
-            TopBorder topBorder = new TopBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = topBorderColor
-            };
-            tblBorders.AppendChild(topBorder);
-
-            BottomBorder bottomBorder = new BottomBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = bottomBorderColor
-            };
-            tblBorders.AppendChild(bottomBorder);
-
-            RightBorder rightBorder = new RightBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = rightBorderColor
-            };
-            tblBorders.AppendChild(rightBorder);
-
-            LeftBorder leftBorder = new LeftBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = leftBorderColor
-            };
-            tblBorders.AppendChild(leftBorder);
-
-            InsideHorizontalBorder insideHBorder = new InsideHorizontalBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = insHorizontalBorder
-            };
-            tblBorders.AppendChild(insideHBorder);
-
-            InsideVerticalBorder insideVBorder = new InsideVerticalBorder
-            {
-                Val = new EnumValue<BorderValues>(b),
-                Color = insVerticalBorder
-            };
-            tblBorders.AppendChild(insideVBorder);
-
-            tblProperties.AppendChild(tblBorders);
-            TableWidth width = new TableWidth
-            {
-                Width = tableWidth,
-                Type = TableWidthUnitValues.Pct
-            };
-
-            tblProperties.AppendChild(width);
-            return tblProperties;
-        }
-
-        public static TableProperties GetTableProperties(
             string borderColor = "#0000000",
             BorderValues b = BorderValues.None,
             string tableWidth = "2500"
@@ -539,41 +462,6 @@ namespace OpenXmlDllProject {
                 cell.Append(p);
                 row.Append(cell);
             }
-            return row;
-        }
-
-        private static TableRow CreateRow(string[] s, string img)
-        {
-            TableRow row = new TableRow();
-            row.Append(new TableRowHeight() { Val = 20 });
-
-            for (int i = 0; i <= s.Length; i++)
-            {
-                TableCell cell = new TableCell(new TableCellVerticalAlignment() { Val = TableVerticalAlignmentValues.Center });
-                Paragraph p = new Paragraph();
-                Run run = new Run();
-                RunProperties runProperties = new RunProperties
-                {
-                    Bold = null,
-                    FontSize = new FontSize()
-                };
-                runProperties.FontSize.Val = "22";
-                p.Append(new TextAlignment() { Val = VerticalTextAlignmentValues.Center });
-                if (i < s.Length)
-                {
-                    run.Append(runProperties);
-                    run.Append(new Text(s[i]));
-                    p.Append(run);
-                    cell.Append(p);
-                    row.Append(cell);
-                }
-                else if (i == s.Length)
-                {
-                    //System.IO.FileNotFoundException: 'Non è stato possibile caricare il file o l'assembly 'System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' o una delle relative dipendenze.Impossibile trovare il file specificato.'
-                    //InsertPicture(cell, img);
-                }
-            }
-
             return row;
         }
 

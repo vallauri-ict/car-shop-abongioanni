@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace WindowsFormsApp {
+namespace CustomControlsProject {
     internal static class GraphicsExtension {
         private static GraphicsPath GenerateRoundedRectangle(
             this Graphics graphics,

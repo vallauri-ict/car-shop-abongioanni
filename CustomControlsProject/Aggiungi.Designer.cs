@@ -1,40 +1,39 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Bunifu.Framework;
 
-namespace WindowsFormsApp {
+namespace CustomControlsProject {
     partial class Aggiungi {
         /// <summary> 
         /// Variabile di progettazione necessaria.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtSella;
-        private System.Windows.Forms.NumericUpDown NAB;
-        private System.Windows.Forms.Label lblChange;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown NCilometraggio;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox chkKm0;
-        private System.Windows.Forms.CheckBox chkUsato;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown NPotenza;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown NCilindrata;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtModello;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnAggiungi;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown NPrezzo;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cmbMarca;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        public System.ComponentModel.IContainer components = null;
+        public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.Label label9;
+        public System.Windows.Forms.TextBox txtSella;
+        public System.Windows.Forms.NumericUpDown NAB;
+        public System.Windows.Forms.Label lblChange;
+        public System.Windows.Forms.Label label8;
+        public System.Windows.Forms.NumericUpDown NCilometraggio;
+        public System.Windows.Forms.Label label7;
+        public System.Windows.Forms.CheckBox chkKm0;
+        public System.Windows.Forms.CheckBox chkUsato;
+        public System.Windows.Forms.Label label6;
+        public System.Windows.Forms.NumericUpDown NPotenza;
+        public System.Windows.Forms.Label label5;
+        public System.Windows.Forms.NumericUpDown NCilindrata;
+        public System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox txtModello;
+        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Button btnAggiungi;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.NumericUpDown NPrezzo;
+        public System.Windows.Forms.Label label10;
+        public System.Windows.Forms.ComboBox cmbMarca;
+        public System.Windows.Forms.DateTimePicker dateTimePicker1;
         /// <summary> 
         /// Pulire le risorse in uso.
         /// </summary>

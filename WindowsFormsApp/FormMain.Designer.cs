@@ -29,7 +29,6 @@ namespace WindowsFormsApp {
         /// </summary>
         private void InitializeComponent()
         { 
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.logoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.nuovoToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -38,14 +37,12 @@ namespace WindowsFormsApp {
             this.cercaToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.volantinoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.impostazioniToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.storicoVenditeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.exportWordToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.exportExcelToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.closeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tMain = new System.Windows.Forms.TabPage();
             this.pnlMain = new System.Windows.Forms.FlowLayoutPanel();
             this.Tb = new System.Windows.Forms.TabControl();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.tMain.SuspendLayout();
             this.Tb.SuspendLayout();
@@ -66,8 +63,6 @@ namespace WindowsFormsApp {
             this.cercaToolStripButton,
             this.volantinoToolStripButton,
             this.impostazioniToolStripButton,
-            this.storicoVenditeToolStripButton,
-            this.toolStripButton1,
             this.exportWordToolStripButton,
             this.exportExcelToolStripButton,
             this.closeToolStripButton});
@@ -97,7 +92,7 @@ namespace WindowsFormsApp {
             // 
             this.nuovoToolStripButton.AutoSize = false;
             this.nuovoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.nuovoToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("nuovoToolStripButton.Image")));
+            this.nuovoToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.ADD_ICON;
             this.nuovoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.nuovoToolStripButton.Name = "nuovoToolStripButton";
             this.nuovoToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -109,7 +104,7 @@ namespace WindowsFormsApp {
             // 
             this.apriToolStripButton.AutoSize = false;
             this.apriToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.apriToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("apriToolStripButton.Image")));
+            this.apriToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.OPEN_BTN_ICON;
             this.apriToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.apriToolStripButton.Name = "apriToolStripButton";
             this.apriToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -121,7 +116,7 @@ namespace WindowsFormsApp {
             // 
             this.salvaToolStripButton.AutoSize = false;
             this.salvaToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.salvaToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("salvaToolStripButton.Image")));
+            this.salvaToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.SAVE_ICON;
             this.salvaToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.salvaToolStripButton.Name = "salvaToolStripButton";
             this.salvaToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -133,7 +128,7 @@ namespace WindowsFormsApp {
             // 
             this.cercaToolStripButton.AutoSize = false;
             this.cercaToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cercaToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cercaToolStripButton.Image")));
+            this.cercaToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.SEARCH_ICON;
             this.cercaToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cercaToolStripButton.Name = "cercaToolStripButton";
             this.cercaToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -145,7 +140,7 @@ namespace WindowsFormsApp {
             // 
             this.volantinoToolStripButton.AutoSize = false;
             this.volantinoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.volantinoToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("volantinoToolStripButton.Image")));
+            this.volantinoToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.WEB2_ICON;
             this.volantinoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.volantinoToolStripButton.Name = "volantinoToolStripButton";
             this.volantinoToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -157,7 +152,7 @@ namespace WindowsFormsApp {
             // 
             this.impostazioniToolStripButton.AutoSize = false;
             this.impostazioniToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.impostazioniToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("impostazioniToolStripButton.Image")));
+            this.impostazioniToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.SETTINGS_ICON;
             this.impostazioniToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.impostazioniToolStripButton.Name = "impostazioniToolStripButton";
             this.impostazioniToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -165,25 +160,12 @@ namespace WindowsFormsApp {
             this.impostazioniToolStripButton.ToolTipText = "Impostazioni (CRTL+I)";
             this.impostazioniToolStripButton.Click += new System.EventHandler(this.Settings_Clik);
             // 
-            // storicoVenditeToolStripButton
-            // 
-            this.storicoVenditeToolStripButton.AutoSize = false;
-            this.storicoVenditeToolStripButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("storicoVenditeToolStripButton.BackgroundImage")));
-            this.storicoVenditeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.storicoVenditeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("storicoVenditeToolStripButton.Image")));
-            this.storicoVenditeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.storicoVenditeToolStripButton.Name = "storicoVenditeToolStripButton";
-            this.storicoVenditeToolStripButton.Size = new System.Drawing.Size(25, 25);
-            this.storicoVenditeToolStripButton.Text = "toolStripButton5";
-            this.storicoVenditeToolStripButton.ToolTipText = "Storico Vendite (CRTL+H)";
-            this.storicoVenditeToolStripButton.Click += new System.EventHandler(this.Storico_Click);
-            // 
             // exportWordToolStripButton
             // 
             this.exportWordToolStripButton.AutoSize = false;
             this.exportWordToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exportWordToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.exportWordToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportWordToolStripButton.Image")));
+            this.exportWordToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.EXPORTDOCX_ICON;
             this.exportWordToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportWordToolStripButton.Name = "exportWordToolStripButton";
             this.exportWordToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -196,7 +178,7 @@ namespace WindowsFormsApp {
             this.exportExcelToolStripButton.AutoSize = false;
             this.exportExcelToolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exportExcelToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.exportExcelToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("exportExcelToolStripButton.Image")));
+            this.exportExcelToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.EXPORTXSLX_ICON;
             this.exportExcelToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportExcelToolStripButton.Name = "exportExcelToolStripButton";
             this.exportExcelToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -207,7 +189,7 @@ namespace WindowsFormsApp {
             // 
             this.closeToolStripButton.AutoSize = false;
             this.closeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.closeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("closeToolStripButton.Image")));
+            this.closeToolStripButton.Image = global::WindowsFormsApp.Properties.Resources.CLOSE_BTN_ICON;
             this.closeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.closeToolStripButton.Name = "closeToolStripButton";
             this.closeToolStripButton.Size = new System.Drawing.Size(25, 25);
@@ -256,17 +238,6 @@ namespace WindowsFormsApp {
             this.Tb.TabIndex = 2;
             this.Tb.SelectedIndexChanged += new System.EventHandler(this.Tb_SelectedIndexChanged);
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "ClientiToolStripButton";
-            this.toolStripButton1.Size = new System.Drawing.Size(25, 25);
-            this.toolStripButton1.ToolTipText = "Chiudi Scheda corrente (CRTL+X)";
-            this.toolStripButton1.Click += new System.EventHandler(this.Clienti_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,10 +278,8 @@ namespace WindowsFormsApp {
         private System.Windows.Forms.FlowLayoutPanel pnlMain;
         private System.Windows.Forms.TabControl Tb;
         private System.Windows.Forms.ToolStripButton closeToolStripButton;
-        private System.Windows.Forms.ToolStripButton storicoVenditeToolStripButton;
         private System.Windows.Forms.ToolStripButton exportWordToolStripButton;
         private System.Windows.Forms.ToolStripButton exportExcelToolStripButton;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

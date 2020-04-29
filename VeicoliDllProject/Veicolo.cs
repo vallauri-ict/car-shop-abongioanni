@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Reflection;
 using System.Xml.Serialization;
 
@@ -18,7 +17,7 @@ namespace VenditaVeicoliDllProject {
         private double potenzaKw;
         private DateTime immatricolazione;
         private bool isUsato;
-        string modello;
+        private string modello;
         private bool isKmZero;
         private int kmPercorsi;
         private string colore;
@@ -28,7 +27,7 @@ namespace VenditaVeicoliDllProject {
         public Veicolo() { }
 
         //COSTRUTTORE DA ELEMENTI SINGOLI
-        public Veicolo(string marca,string modello,string targa ,int cilindrata, double potenzaKw, DateTime immatricolazione, bool isUsato, bool isKmZero, int kmPercorsi, string colore, double prezzo)
+        public Veicolo(string marca, string modello, string targa, int cilindrata, double potenzaKw, DateTime immatricolazione, bool isUsato, bool isKmZero, int kmPercorsi, string colore, double prezzo)
         {
             this.ImagePath = "";
             this.Marca = marca;
@@ -46,7 +45,7 @@ namespace VenditaVeicoliDllProject {
 
         public Veicolo(object[] dato)
         {
-            if(dato.Length!=14)
+            if (dato.Length != 14)
                 throw new Exception("Formato array dati errato!");
             this.Marca = dato[1].ToString();
             this.Modello = dato[2].ToString();
@@ -92,11 +91,11 @@ namespace VenditaVeicoliDllProject {
                 item == this.Marca.ToString().ToUpper() ||
                 (this.Marca.ToString().ToUpper().Contains(item)) ||
                 item == this.Modello.ToString().ToUpper() ||
-                (this.Modello.ToString().ToUpper().Contains(item)||
+                (this.Modello.ToString().ToUpper().Contains(item) ||
                 this.Colore.ToUpper().Contains(item.ToUpper().Substring(0, item.Length - 1)));
         }//FUNZIONE CHE RITORNA BOOLEANO SE STRINGA E' CONTENUTA NELL'OGGETTO
 
-        public static SerializableBindingList<Veicolo> Search(string s, System.Collections.Generic.List<Veicolo> lst,char sep=' ')
+        public static SerializableBindingList<Veicolo> Search(string s, System.Collections.Generic.List<Veicolo> lst, char sep = ' ')
         {
             string[] search = s.Split(sep);
             SerializableBindingList<Veicolo> results = new SerializableBindingList<Veicolo>();//LISTA RISULTATI
@@ -167,10 +166,10 @@ namespace VenditaVeicoliDllProject {
         public string GetProperties()
         {
             return
-                this.Marca.ToUpper()+" "+
-                this.Modello.ToUpper() + " "+
-                this.Cilindrata.ToString().ToUpper() + " "+
-                (this.IsUsato?"USATO USATA USATE USATI ":"NUOVO NUOVE NUOVA NUOVI ") +
+                this.Marca.ToUpper() + " " +
+                this.Modello.ToUpper() + " " +
+                this.Cilindrata.ToString().ToUpper() + " " +
+                (this.IsUsato ? "USATO USATA USATE USATI " : "NUOVO NUOVE NUOVA NUOVI ") +
                 this.Colore;
         }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ConsoleAppProject.Properties {
+namespace CustomControlsProject.Properties {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace ConsoleAppProject.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace ConsoleAppProject.Properties {
         ///   Restituisce l'istanza di ResourceManager nella cache utilizzata da questa classe.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleAppProject.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CustomControlsProject.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace ConsoleAppProject.Properties {
         ///   ricerche di risorse eseguite utilizzando questa classe di risorse fortemente tipizzata.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,11 +61,68 @@ namespace ConsoleAppProject.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Veicoli.accdb.
+        ///   Cerca una stringa localizzata simile a MarcheAuto.txt.
         /// </summary>
-        internal static string ACCESS_DB_NAME {
+        public static string AUTO_BRAND {
             get {
-                return ResourceManager.GetString("ACCESS_DB_NAME", resourceCulture);
+                return ResourceManager.GetString("AUTO_BRAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap AUTO_ICON {
+            get {
+                object obj = ResourceManager.GetObject("AUTO_ICON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a FooterRow1.txt.
+        /// </summary>
+        public static string FOOTER__ROW1 {
+            get {
+                return ResourceManager.GetString("FOOTER _ROW1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a FooterRow2.txt.
+        /// </summary>
+        public static string FOOTER__ROW2 {
+            get {
+                return ResourceManager.GetString("FOOTER _ROW2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a MarcheMoto.txt.
+        /// </summary>
+        public static string MOTO_BRAND {
+            get {
+                return ResourceManager.GetString("MOTO_BRAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap MOTO_ICON {
+            get {
+                object obj = ResourceManager.GetObject("MOTO_ICON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap NO_IMG {
+            get {
+                object obj = ResourceManager.GetObject("NO_IMG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

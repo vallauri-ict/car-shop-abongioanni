@@ -221,7 +221,6 @@ namespace WindowsFormsApp {
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1020, 539);
             this.pnlMain.TabIndex = 3;
-            this.pnlMain.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.PnlMain_ControlAdded);
             // 
             // Tb
             // 
@@ -253,7 +252,6 @@ namespace WindowsFormsApp {
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SALONE VENDITA VEICOLI NUOVI E USATI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.toolStrip1.ResumeLayout(false);

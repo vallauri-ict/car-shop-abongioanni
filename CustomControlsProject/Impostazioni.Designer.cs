@@ -68,7 +68,7 @@ namespace CustomControlsProject {
             this.textBox1.Size = new System.Drawing.Size(321, 23);
             this.textBox1.TabIndex = 5;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.TextChanged += new System.EventHandler(this.Titolo_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.Txt_TextChanged);
             // 
             // label1
             // 
@@ -105,7 +105,7 @@ namespace CustomControlsProject {
             this.textBox2.Size = new System.Drawing.Size(321, 23);
             this.textBox2.TabIndex = 8;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox2.TextChanged += new System.EventHandler(this.R1_TextChanged);
+            this.textBox2.TextChanged += new System.EventHandler(this.Txt_TextChanged);
             // 
             // label3
             // 
@@ -130,7 +130,7 @@ namespace CustomControlsProject {
             this.textBox3.Size = new System.Drawing.Size(321, 23);
             this.textBox3.TabIndex = 10;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox3.TextChanged += new System.EventHandler(this.R2_TextChanged);
+            this.textBox3.TextChanged += new System.EventHandler(this.Txt_TextChanged);
             // 
             // label4
             // 
@@ -179,7 +179,7 @@ namespace CustomControlsProject {
             this.textBox4.Size = new System.Drawing.Size(321, 23);
             this.textBox4.TabIndex = 14;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox4.TextChanged += new System.EventHandler(this.EMail_TextChanged);
+            this.textBox4.TextChanged += new System.EventHandler(this.Txt_TextChanged);
             // 
             // Impostazioni
             // 

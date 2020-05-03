@@ -7,7 +7,6 @@ using System.Windows.Forms;
 namespace CustomControlsProject {
     public partial class Impostazioni : UserControl {
         private OpenFileDialog openFileDialog1;
-        public bool modificato = false;
         public string logoPath;
 
         public delegate void Im(Impostazioni i);
@@ -35,7 +34,6 @@ namespace CustomControlsProject {
                 this.logoPath = s;
                 this.Btgg.BackgroundImage.Dispose();
                 this.Btgg.BackgroundImage = Image.FromFile(logoPath);
-                this.modificato = true;
                 ImpostazioniModificate(this);
             }
         }
@@ -55,27 +53,8 @@ namespace CustomControlsProject {
             e.Graphics.FillRectangle(linearGradientBrush, this.ClientRectangle);
         }
 
-        private void Titolo_TextChanged(object sender, EventArgs e)
+        private void Txt_TextChanged(object sender, EventArgs e)
         {
-            this.modificato = true;
-            ImpostazioniModificate(this);
-        }
-
-        private void R1_TextChanged(object sender, EventArgs e)
-        {
-            this.modificato = true;
-            ImpostazioniModificate(this);
-        }
-
-        private void R2_TextChanged(object sender, EventArgs e)
-        {
-            this.modificato = true;
-            ImpostazioniModificate(this);
-        }
-
-        private void EMail_TextChanged(object sender, EventArgs e)
-        {
-            this.modificato = true;
             ImpostazioniModificate(this);
         }
     }

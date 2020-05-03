@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using CustomControlsProject;
-using DbDllProject;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using OpenXmlDllProject;
-using Risorse;
 using VenditaVeicoliDllProject;
 
 namespace WindowsFormsApp {
@@ -79,14 +76,17 @@ namespace WindowsFormsApp {
         private string[] search = new string[0];
         private FlowLayoutPanel tlpResults;
 
-        public SerializableBindingList<Veicolo> listaVeicoliEliminati;//LISTA DATI
-        public SerializableBindingList<Veicolo> listaVeicoliAggiunti;//LISTA DATI
-        public SerializableBindingList<Veicolo> listaVeicoli;//LISTA DATI
+        private readonly SerializableBindingList<Veicolo> listaVeicoliEliminati;//LISTA DATI
+        private readonly SerializableBindingList<Veicolo> listaVeicoliAggiunti;//LISTA DATI
+        private SerializableBindingList<Veicolo> listaVeicoli;//LISTA DATI
 
-        public readonly string resourcesDirectoryPath;
+        private readonly string resourcesDirectoryPath;
         private readonly string accessDbPath;
-        public bool modifica = false;//MODIFICHE EFFETTUATE
-        public List<string> deletePaths = new List<string>();
+        private readonly string connString;
+        private bool modifica = false;//MODIFICHE EFFETTUATE
+        private readonly List<string> deletePaths = new List<string>();
+        private readonly VeicoliCommands vc;
+
         #endregion
 
         #region Form
@@ -94,11 +94,13 @@ namespace WindowsFormsApp {
         {
             resourcesDirectoryPath = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\Risorse\\Resources\\";
             accessDbPath = Path.Combine(resourcesDirectoryPath, Properties.Resources.ACCESS_DB_NAME);
+            connString = ("Provider=Microsoft.Ace.Oledb.12.0;Data Source={DbPath};").Replace("{DbPath}", accessDbPath);
+            vc = new VeicoliCommands();
             listaVeicoliEliminati = new SerializableBindingList<Veicolo>();
             listaVeicoliAggiunti = new SerializableBindingList<Veicolo>();
             listaVeicoli = new SerializableBindingList<Veicolo>();
             this.InitializeComponent();
-        }
+        }   //COSTRUTTORE FORM: INIZIALIZZA TUTTE LE STRUTTURE DATI NECESSARIE
 
         public void FormMain_Load(object sender, EventArgs e)
         {
@@ -119,7 +121,7 @@ namespace WindowsFormsApp {
             listaVeicoliAggiunti.Clear();
             listaVeicoli.Clear();
 
-            OpenFromDB(listaVeicoli, accessDbPath);
+            listaVeicoli = vc.GetVeicoliList(new VeicoliCommands().GetRows(connString, "SELECT * FROM Veicoli"));
 
             foreach (var item in listaVeicoli)
             {//CREO LE CARTE GRAFICHE
@@ -174,21 +176,17 @@ namespace WindowsFormsApp {
             }//SHORTCUT
             else
             {
-                if (e.KeyCode == Keys.Left)
+                switch (e.KeyCode)
                 {
-                    this.Tb.SelectedIndex = this.Tb.SelectedIndex <= 0 ? this.Tb.TabCount : this.Tb.SelectedIndex;
-                }
-                else if (e.KeyCode == Keys.Right)
-                {
-                    this.Tb.SelectedIndex = this.Tb.SelectedIndex == this.Tb.TabCount ? 0 : this.Tb.SelectedIndex;
+                    case Keys.Left:
+                        this.Tb.SelectedIndex = this.Tb.SelectedIndex <= 0 ? this.Tb.TabCount : this.Tb.SelectedIndex;
+                        break;
+                    case Keys.Right:
+                        this.Tb.SelectedIndex = this.Tb.SelectedIndex == this.Tb.TabCount ? 0 : this.Tb.SelectedIndex;
+                        break;
                 }
             }
         }//SHORTCUT
-
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
         #endregion
 
         #region toolStripButtons Click
@@ -198,8 +196,6 @@ namespace WindowsFormsApp {
             if (this.tAggiungi == null)//CONTROLLO SE NON HO GIA' APERTO LA TAB PER L'AGGIUNTA
             {
                 this.tAggiungi = new TabPage();//CREO UNA NUOVA PAGINA
-
-                //CREO LA GRAFICA DINAMICAMENTE (CODICE PRESO DA UNA FORM RIMOSSA)
                 var a = new Aggiungi()
                 {
                     Dock = DockStyle.Fill
@@ -234,7 +230,9 @@ namespace WindowsFormsApp {
             modifica = true;
             var c = new Card(v);
             this.pnlMain.Controls.Add(c);
-        }
+            this.Tb.TabPages.Remove(tAggiungi);
+            this.tAggiungi = null;
+        }//EVENTO 'AGGIUNTA DI UN VEICOLO'
 
         private void SalvaToolStripButton_Click(object sender, EventArgs e)
         {
@@ -242,7 +240,7 @@ namespace WindowsFormsApp {
             {
                 Salva();
             }
-        }//SALVATAGGIO
+        }//BOTTONE SALVA
 
         private void ApriToolStripButton_Click(object sender, EventArgs e)
         {
@@ -262,11 +260,11 @@ namespace WindowsFormsApp {
                 //ERRORE!
                 MessageBox.Show("Errore durante il caricamento dei dati!\n", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }//APERTURA DATI
+        }//CARICAMENTO DATI
 
         private void LogoButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://jombo.altervista.org/");
+            System.Diagnostics.Process.Start("http://www.vallauri.edu/");
         }//NAVIGAZIONE
 
         private void ListinoButton_Click(object sender, EventArgs e)
@@ -321,8 +319,10 @@ namespace WindowsFormsApp {
                 foreach (Veicolo Mezzo in results)
                 {//CREO LE CARTE GRAFICHE DEI RISULTATI
                     var c = new Card(Mezzo);
+                    c.btnDelete.Visible = false;
                     c.CardDeleted += Handler_CardDeleted;
                     c.CardShowed += Handler_CardShowed;
+                    this.tlpResults.Controls.Add(c);
                 }
             }
         }//RICERCA DATI
@@ -337,12 +337,12 @@ namespace WindowsFormsApp {
                 t.Text = c.lblMarcaModello.Text;
                 c.TabChiusa += ChiudiTab_Click;
             }
-        }
+        }//EVENTO 'VISUALIZZAZIONE DETTAGLI VEICOLO'
 
         private void ChiudiTab_Click(CardDetails c, TabPage t)
         {
             this.Tb.TabPages.Remove(t);
-        }
+        }//EVENTO 'CHIUSURA TAB DETTAGLI VEICOLO'
 
         private void Handler_CardDeleted(Veicolo v, Card card, CardDetails c = null)
         {
@@ -360,7 +360,7 @@ namespace WindowsFormsApp {
                 deletePaths.Add(v.ImagePath);
             }
             listaVeicoliEliminati.Add(v);
-        }
+        }//EVENTO 'ELIMINAZIONE DI UN VEICOLO'
 
         private void Settings_Clik(object sender, EventArgs e)
         {
@@ -395,7 +395,7 @@ namespace WindowsFormsApp {
             File.WriteAllText(Path.Combine(Properties.Resources.FILES_PATH, "FooterRow1.txt"), i.textBox2.Text);
             File.WriteAllText(Path.Combine(Properties.Resources.FILES_PATH, "HeaderText.txt"), i.textBox1.Text);
             File.WriteAllText(Path.Combine(Properties.Resources.FILES_PATH, "Email.txt"), i.textBox4.Text);
-        }
+        }//EVENT 'AUTO SALVATAGGIO DELLE IMPOSTAZIONI'
 
         private void Chiudi_Click(object sender, EventArgs e)
         {
@@ -412,11 +412,6 @@ namespace WindowsFormsApp {
             }
             else if (this.Tb.SelectedTab == this.tModify)
             {
-                if ((this.tModify.Controls["a"] as Impostazioni).modificato)
-                    if (MessageBox.Show("Vuoi salvare le modifiche?", "Salva", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        Handler_ImpostazioniModificate(this.tModify.Controls["a"] as Impostazioni);
-                    }
                 this.Tb.TabPages.Remove(this.tModify);
                 this.tModify = null;
             }
@@ -425,7 +420,7 @@ namespace WindowsFormsApp {
                 this.Tb.TabPages.Remove(this.tStorico);
                 this.tStorico = null;
             }
-        }//CHIUDO LA TAB CORRENTE A MENO CHE NON SIA UNA CARTA DEI DETTAGLI
+        }//CHIUDO LA TAB CORRENTE A MENO CHE NON SIA UNA DEI DETTAGLI DI UN VEICOLO
 
         private void Tb_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -436,13 +431,14 @@ namespace WindowsFormsApp {
         {
             try
             {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? Utilities.StringArrayToString(search) : "") + ".docx";
-                WordprocessingDocument doc = Word.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? Utilities.StringArrayToString(search) : "") + ".docx");
+                string s = StringArrayToString(search);
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx";
+                WordprocessingDocument doc = Word.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx");
                 var mainPart = doc.MainDocumentPart.Document;
                 Body body = mainPart.GetFirstChild<Body>();
                 if (this.Tb.SelectedTab == tRicerca && this.results != null)
                 {
-                    body.AppendChild(Word.CreateParagraph($"Ricerca basata su: \"{Utilities.StringArrayToString(search)}\""));
+                    body.AppendChild(Word.CreateParagraph($"Ricerca basata su: \"{s}\""));
                 }// SE SI PREME IL BOTTONE DI ESPORTAZIONE SULLA PAGINA DEI RISULTATI DI UNA RICERCA, VERRANNO ESPORATI QUEI RISULTATI
                 string[][] contenuto;
                 if (this.Tb.SelectedTab == tRicerca && this.results != null)
@@ -483,7 +479,7 @@ namespace WindowsFormsApp {
 
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
-            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? Utilities.StringArrayToString(search) : "") + ".xlsx");
+            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? StringArrayToString(search) : "") + ".xlsx");
             Excel.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
             MessageBox.Show("Il documento è pronto!");
             Process.Start(path);
@@ -491,24 +487,22 @@ namespace WindowsFormsApp {
 
         #endregion
 
-        public void Salva()
+        private void Salva()
         {
-            VeicoliCommands cmdVeicoli = new VeicoliCommands();
             try
             {
-                string connString = ("Provider=Microsoft.Ace.Oledb.12.0;Data Source={DbPath};").Replace("{DbPath}", accessDbPath);
                 foreach (Veicolo v in listaVeicoliEliminati)
                 {
-                    cmdVeicoli.Delete(v, connString);
+                    vc.Delete(v, connString);
                 }
                 foreach (Veicolo v in listaVeicoliAggiunti)
                 {
-                    cmdVeicoli.Insert(v, connString);
+                    vc.Insert(v, connString);
                     listaVeicoli.Add(v);
                 }
                 foreach (Veicolo v in listaVeicoli)
                 {
-                    cmdVeicoli.Update(v, connString);
+                    vc.Update(v, connString);
                 }
 
                 MessageBox.Show("Modifiche salvate!", "Salva", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -534,36 +528,9 @@ namespace WindowsFormsApp {
             {
                 MessageBox.Show("Errore durante il Salvataggio dei dati!\n" + e.Message, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }//METODO CHE SALVA I DATI DI UNA SerializableBindingList<T> IN TRE FORMATI: XML,JSON,CSV
+        }//METODO CHE SALVA I DATI DI UNA SerializableBindingList<T> IN DB ACCESS
 
-        private void PnlMain_ControlAdded(object sender, ControlEventArgs e)
-        {
-            if (tAggiungi != null)
-            {
-                this.Tb.TabPages.Remove(tAggiungi);
-                this.tAggiungi = null;
-            }
-        }
-
-        public static void OpenFromDB(SerializableBindingList<Veicolo> lst, string pathName)
-        {
-            try
-            {
-                DataTable t = AccessUtils.GetRows(pathName, "SELECT * FROM Veicoli");
-                foreach (DataRow r in t.Rows)
-                {
-                    Veicolo v;
-                    if (Convert.ToInt32(r["AutoMoto"]) == 1)
-                        v = new Auto(Veicolo.SetArray(r));
-                    else
-                        v = new Moto(Veicolo.SetArray(r));
-                    lst.Add(v);
-                }
-            }
-            catch { }
-        }
-
-        public static void CreateHtml(SerializableBindingList<Veicolo> listaVeicoli, string path = @".\www\index.html", string skeletonPath = @".\www\index-skeleton.html", string header = "showroom", string r1 = "riga 1", string r2 = "riga 2", string logoPath = "", string mail = "")
+        private void CreateHtml(SerializableBindingList<Veicolo> listaVeicoli, string path = @".\www\index.html", string skeletonPath = @".\www\index-skeleton.html", string header = "showroom", string r1 = "riga 1", string r2 = "riga 2", string logoPath = "", string mail = "")
         {
             string html = File.ReadAllText(skeletonPath);//LEGGO SKELETON HTML
             string newVeicoli = "";//STRINGA NUOVI VEICOLI
@@ -583,5 +550,14 @@ namespace WindowsFormsApp {
             File.WriteAllText(path, html);//SCRITTURA NELL' INDEX E APERTURA
         }//CREAZIONE HMTL (VOLANTINO)
 
+        private string StringArrayToString(string[] a, char sep = ' ')
+        {
+            string s = "";
+            for (int i = 0; i < a.Length; i++)
+            {
+                s += a[i] + sep;
+            }
+            return s;
+        }
     }
 }

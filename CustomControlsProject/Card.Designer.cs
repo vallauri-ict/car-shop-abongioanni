@@ -100,9 +100,9 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pcb;
-        private System.Windows.Forms.Label lbl;
-        private System.Windows.Forms.Button btn;
-        private System.Windows.Forms.Button btnDelete;
+        public System.Windows.Forms.PictureBox pcb;
+        public System.Windows.Forms.Label lbl;
+        public System.Windows.Forms.Button btn;
+        public System.Windows.Forms.Button btnDelete;
     }
 }

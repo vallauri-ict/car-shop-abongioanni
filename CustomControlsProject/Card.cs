@@ -162,74 +162,71 @@ namespace CustomControlsProject {
 
         private void DgvDettagli_SelectionChanged(object sender, EventArgs e)
         {
+            string v = cardDetail.dgvDettagli.CurrentCell.Value.ToString();
+            string m = "";
             try
             {
-                string v = cardDetail.dgvDettagli.CurrentCell.Value.ToString();
-                string m = "";
-                try
+                switch (cardDetail.dgvDettagli.CurrentCell.RowIndex)
                 {
-                    switch (cardDetail.dgvDettagli.CurrentCell.RowIndex)
-                    {
-                        case 1:
-                            m = Interaction.InputBox("Inserisci modifica alla cilindrata (cc):", "Modifica", this.Mezzo.Cilindrata.ToString());
-                            this.Mezzo.Cilindrata = Convert.ToInt32(m.ToString().Split(' ')[0]);
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Cilindrata.ToString("C").Split(',')[0] + " cc";
-                            break;
-                        case 2:
-                            m = Interaction.InputBox("Inserisci modifica alla Potenza (Kw):", "Modifica", this.Mezzo.PotenzaKw.ToString());
-                            this.Mezzo.PotenzaKw = Convert.ToDouble(m.ToString().Split(' ')[0]);
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.PotenzaKw.ToString("C").Split(',')[0] + " Kw";
-                            break;
-                        case 3:
-                            m = Interaction.InputBox("Inserisci modifica alla data di immatricolazione:", "Modifica", this.Mezzo.Immatricolazione.ToShortDateString());
-                            this.Mezzo.Immatricolazione = Convert.ToDateTime(m);
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Immatricolazione.ToShortDateString();
-                            break;
-                        case 4:
-                            this.Mezzo.IsUsato = !this.Mezzo.IsUsato;
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = (this.Mezzo.Stato);
-                            this.lbl.Text = $"{(this.Mezzo.Marca.ToUpper() == "MERCEDES-BENZ" ? "MB" : this.Mezzo.Marca)} {this.Mezzo.Modello} - {this.Mezzo.Targa} {this.Mezzo.Stato}";
-                            break;
-                        case 5:
-                            this.Mezzo.IsKmZero = !this.Mezzo.IsKmZero;
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = (this.Mezzo.IsKmZero ? "Vero" : "Falso");
-                            break;
-                        case 6:
-                            m = Interaction.InputBox("Inserisci modifica al Chilometraggio (Km):", "Modifica", this.Mezzo.KmPercorsi.ToString());
-                            this.Mezzo.KmPercorsi = Convert.ToInt32(m.ToString().Split(' ')[0]);
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.KmPercorsi.ToString("C").Split(',')[0] + " Km";
-                            break;
-                        case 7:           //VA IN ERRORE NON SO PER QUALE MOTIVO
-                            m = Interaction.InputBox("Scegli colore", "Modifica", this.Mezzo.Colore);//crea metodo statico input che ritorna stringa
-                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Colore = m;
-                            break;
-                        case 8:
-                            if (this.Mezzo is Auto)
-                            {
-                                m = Interaction.InputBox("Inserisci modifica al numero di airbag:", "Modifica", (this.Mezzo as Auto).NumeroAirBag.ToString());
-                                (this.Mezzo as Auto).NumeroAirBag = Convert.ToInt32(m);
-                                cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = m;
-                            }
-                            else
-                            {
-                                m = Interaction.InputBox("Inserisci modifica la marca della sella:", "Modifica", (this.Mezzo as Moto).MarcaSella.ToString());
-                                (this.Mezzo as Moto).MarcaSella = m;
-                                cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = m;
-                            }
-                            break;
-                    }
+                    case 1:
+                        m = Interaction.InputBox("Inserisci modifica alla cilindrata (cc):", "Modifica", this.Mezzo.Cilindrata.ToString());
+                        this.Mezzo.Cilindrata = Convert.ToInt32(m.ToString().Split(' ')[0]);
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Cilindrata.ToString("C").Split(',')[0] + " cc";
+                        break;
+                    case 2:
+                        m = Interaction.InputBox("Inserisci modifica alla Potenza (Kw):", "Modifica", this.Mezzo.PotenzaKw.ToString());
+                        this.Mezzo.PotenzaKw = Convert.ToDouble(m.ToString().Split(' ')[0]);
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.PotenzaKw.ToString("C").Split(',')[0] + " Kw";
+                        break;
+                    case 3:
+                        m = Interaction.InputBox("Inserisci modifica alla data di immatricolazione:", "Modifica", this.Mezzo.Immatricolazione.ToShortDateString());
+                        this.Mezzo.Immatricolazione = Convert.ToDateTime(m);
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Immatricolazione.ToShortDateString();
+                        break;
+                    case 4:
+                        this.Mezzo.IsUsato = !this.Mezzo.IsUsato;
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = (this.Mezzo.Stato);
+                        this.lbl.Text = $"{(this.Mezzo.Marca.ToUpper() == "MERCEDES-BENZ" ? "MB" : this.Mezzo.Marca)} {this.Mezzo.Modello} - {this.Mezzo.Targa} {this.Mezzo.Stato}";
+                        break;
+                    case 5:
+                        this.Mezzo.IsKmZero = !this.Mezzo.IsKmZero;
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = (this.Mezzo.IsKmZero ? "Vero" : "Falso");
+                        break;
+                    case 6:
+                        m = Interaction.InputBox("Inserisci modifica al Chilometraggio (Km):", "Modifica", this.Mezzo.KmPercorsi.ToString());
+                        this.Mezzo.KmPercorsi = Convert.ToInt32(m.ToString().Split(' ')[0]);
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.KmPercorsi.ToString("C").Split(',')[0] + " Km";
+                        break;
+                    case 7:           //VA IN ERRORE NON SO PER QUALE MOTIVO
+                        m = Interaction.InputBox("Scegli colore", "Modifica", this.Mezzo.Colore);//crea metodo statico input che ritorna stringa
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Colore = m;
+                        break;
+                    case 8:
+                        if (this.Mezzo is Auto)
+                        {
+                            m = Interaction.InputBox("Inserisci modifica al numero di airbag:", "Modifica", (this.Mezzo as Auto).NumeroAirBag.ToString());
+                            (this.Mezzo as Auto).NumeroAirBag = Convert.ToInt32(m);
+                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = m;
+                        }
+                        else
+                        {
+                            m = Interaction.InputBox("Inserisci modifica la marca della sella:", "Modifica", (this.Mezzo as Moto).MarcaSella.ToString());
+                            (this.Mezzo as Moto).MarcaSella = m;
+                            cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = m;
+                        }
+                        break;
                 }
-                catch (Exception ex)
-                {
-                    cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = v;//SE CI SONO ERRORI VERRA' RIMESSO IL VALORE DI DEFAULT
-                    if (m != "")
-                        MessageBox.Show($"Devi inserire un valore Valido! {ex.Message}", "Errore!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                cardDetail.dgvDettagli.SelectionChanged -= this.DgvDettagli_SelectionChanged;
-                cardDetail.dgvDettagli.ClearSelection();
-                cardDetail.dgvDettagli.SelectionChanged += new EventHandler(this.DgvDettagli_SelectionChanged);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = v;//SE CI SONO ERRORI VERRA' RIMESSO IL VALORE DI DEFAULT
+                if (m != "")
+                    MessageBox.Show($"Devi inserire un valore Valido! {ex.Message}", "Errore!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            cardDetail.dgvDettagli.SelectionChanged -= this.DgvDettagli_SelectionChanged;
+            cardDetail.dgvDettagli.ClearSelection();
+            cardDetail.dgvDettagli.SelectionChanged += new EventHandler(this.DgvDettagli_SelectionChanged);
+
         }
 
         private void LblPrezzo_Click(object sender, EventArgs e)

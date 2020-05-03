@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Data;
 using System.IO;
-using DbDllProject;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using OpenXmlDllProject;
@@ -14,28 +12,14 @@ namespace ConsoleAppProject {
         {
             string resourcesDirectoryPath = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\Risorse\\Resources";
             string accessDbPath = Path.Combine(resourcesDirectoryPath, Properties.Resources.ACCESS_DB_NAME);
-            string connStr = $"Provider=Microsoft.Ace.Oledb.12.0;Data Source={accessDbPath};";
-
-            SerializableBindingList<Veicolo> listaVeicoli = new SerializableBindingList<Veicolo>();
+            string connString = $"Provider=Microsoft.Ace.Oledb.12.0;Data Source={accessDbPath};";
+            VeicoliCommands vc = new VeicoliCommands();
+            SerializableBindingList<Veicolo> listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli;"));
             try
             {
-                new VeicoliCommands().CreateTable(connStr);
+                vc.CreateTable(connString);
             }
-            catch (System.Data.OleDb.OleDbException)
-            {
-
-            }
-
-            DataTable t = AccessUtils.GetRows(accessDbPath, "SELECT * FROM Veicoli;");
-            //VeicoliDataSet.VeicoliDataTable t = new VeicoliDataSet.VeicoliDataTable();
-
-            foreach (DataRow r in t.Rows)
-            {
-                if (Convert.ToInt32(r["AutoMoto"]) == 1)
-                    listaVeicoli.Add(new Auto(Veicolo.SetArray(r)));
-                else
-                    listaVeicoli.Add(new Moto(Veicolo.SetArray(r)));
-            }
+            catch (System.Data.OleDb.OleDbException) { }
             string scelta;
             do
             {
@@ -87,7 +71,7 @@ namespace ConsoleAppProject {
                             else
                                 (v as Moto).MarcaSella = AskToSet("Inserisci la marca della sella (x per uscire): ");
                             listaVeicoli.Add(v);
-                            new VeicoliCommands().Insert(v, connStr);
+                            vc.Insert(v, connString);
                             Console.WriteLine("Veicolo Aggiunto!");
                             Console.ReadKey();
                         }
@@ -110,17 +94,18 @@ namespace ConsoleAppProject {
                         {
                             if (v.Targa.ToUpper() == targa)
                             {
+                                string s = SequenzaChar(30);
                                 trovato = true;
-                                Console.WriteLine($"\n{v.Marca} {v.Modello}\n" + Utilities.SequenzaChar(30) +
-                                    $"\nCilindrata: {v.Cilindrata} cc\n" + Utilities.SequenzaChar(30) +
-                                    $"\nPotenza: {v.PotenzaKw} Kw\n" + Utilities.SequenzaChar(30) +
-                                    $"\nImmatricolazione: {v.Immatricolazione.ToShortDateString()}\n" + Utilities.SequenzaChar(30) +
-                                    $"\nStato: {v.Stato}\n" + Utilities.SequenzaChar(30) +
-                                    $"\nKm Zero: {v.IsKmZero}\n" + Utilities.SequenzaChar(30) +
-                                    $"\nChilometraggio: {v.KmPercorsi } Km\n" + Utilities.SequenzaChar(30) +
-                                    $"\nColore: {v.Colore}\n" + Utilities.SequenzaChar(30) +
-                                    $"\nPrezzo: {v.GetPrezzo()}\n" + Utilities.SequenzaChar(30) +
-                                    ((v is Auto ? $"\nNumero airbag: {(v as Auto).NumeroAirBag}\n" : $"\nMarca sella: {(v as Moto).MarcaSella}\n") + Utilities.SequenzaChar(30)));
+                                Console.WriteLine($"\n{v.Marca} {v.Modello}\n" + s +
+                                    $"\nCilindrata: {v.Cilindrata} cc\n" + s +
+                                    $"\nPotenza: {v.PotenzaKw} Kw\n" + s +
+                                    $"\nImmatricolazione: {v.Immatricolazione.ToShortDateString()}\n" +s +
+                                    $"\nStato: {v.Stato}\n" + s +
+                                    $"\nKm Zero: {v.IsKmZero}\n" + s +
+                                    $"\nChilometraggio: {v.KmPercorsi } Km\n" + s +
+                                    $"\nColore: {v.Colore}\n" + s +
+                                    $"\nPrezzo: {v.GetPrezzo()}\n" + s +
+                                    ((v is Auto ? $"\nNumero airbag: {(v as Auto).NumeroAirBag}\n" : $"\nMarca sella: {(v as Moto).MarcaSella}\n") + s));
                                 break;
                             }
                             if (!trovato) Console.WriteLine("Veicolo non trovato"); Console.ReadKey();
@@ -150,7 +135,7 @@ namespace ConsoleAppProject {
                                 {
                                     Console.Write("Inserisci nuovo " + proprieta + ": ");
                                     v[proprieta.Substring(0, 1) + proprieta.Substring(1).ToLower()] = Console.ReadLine();
-                                    new VeicoliCommands().Update(v, connStr);
+                                    vc.Update(v, connString);
                                 }
                                 catch { Console.WriteLine("Formato valore immesso errato!"); }
                             }
@@ -191,7 +176,7 @@ namespace ConsoleAppProject {
                                 if (Console.ReadLine().ToUpper() == "S")
                                 {
                                     listaVeicoli.Remove(v);
-                                    new VeicoliCommands().Delete(v, connStr);
+                                    vc.Delete(v, connString);
                                     Console.WriteLine("Veicolo eliminato");
                                 }
                                 break;
@@ -252,6 +237,14 @@ namespace ConsoleAppProject {
             Console.Write(caption);
             string a = Console.ReadLine().ToUpper();
             if (a != "X") return a; else throw new Exception("Esci");
+        }
+
+        private static string SequenzaChar(int n,char c = '-')
+        {
+            string s = "";
+            for (int i = 0; i < n; i++)
+                s += c;
+            return s;
         }
     }
 }

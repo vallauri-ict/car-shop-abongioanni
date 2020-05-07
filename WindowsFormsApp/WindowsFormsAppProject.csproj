@@ -60,12 +60,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="Bunifu_UI_v1.52">
-      <HintPath>..\..\..\..\..\..\..\Setup\Informatica\FrameWorks - Libraries\Bunifu_UI_v1.52\Bunifu_UI_v1.52.dll</HintPath>
-    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.10.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.10.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
@@ -166,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="www\.idea\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="files\EMail.txt">
@@ -183,7 +182,6 @@
     <Content Include="files\LogoPath.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="www\.idea\workspace.xml" />
     <Content Include="www\images\DLL.PNG" />
     <Content Include="www\images\loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

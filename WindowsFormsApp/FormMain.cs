@@ -106,7 +106,7 @@ namespace WindowsFormsApp {
         {
             try
             {
-                new VeicoliCommands().CreateTable(("Provider=Microsoft.Ace.Oledb.12.0;Data Source={DbPath};").Replace("{DbPath}", accessDbPath));
+                new VeicoliCommands().CreateTable(connString);
             }
             catch (OleDbException) { }
 
@@ -230,6 +230,8 @@ namespace WindowsFormsApp {
             modifica = true;
             var c = new Card(v);
             this.pnlMain.Controls.Add(c);
+            c.CardDeleted += Handler_CardDeleted;
+            c.CardShowed += Handler_CardShowed;
             this.Tb.TabPages.Remove(tAggiungi);
             this.tAggiungi = null;
         }//EVENTO 'AGGIUNTA DI UN VEICOLO'

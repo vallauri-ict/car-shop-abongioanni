@@ -10,8 +10,8 @@ namespace CustomControlsProject {
         public Veicolo Mezzo;
         public TabPage tabPage;
 
-        public delegate void Esci(CardDetails c, TabPage t);
-        public event Esci TabChiusa;
+        public delegate void Close(CardDetails c, TabPage t);
+        public event Close TabChiusa;
 
         public CardDetails(Veicolo v)
         {
@@ -20,18 +20,18 @@ namespace CustomControlsProject {
             Tuple<string, string>[] values =//INSIEME DI DATI DA vISULIZZARE
             {
                     new Tuple<string, string>("Targa",v.Targa),
-                    new Tuple<string, string>("Cilindrata",v.Cilindrata.ToString("C").Split(',')[0] + " cc"),
-                    new Tuple<string, string>("Potenza",v.PotenzaKw.ToString("C").Split(',')[0] + " Kw"),
+                    new Tuple<string, string>("Cilindrata",v.Cilindrata.ToString().Split(',')[0] + " cc"),
+                    new Tuple<string, string>("Potenza",v.PotenzaKw.ToString().Split(',')[0] + " Kw"),
                     new Tuple<string, string>("Immatricolazione",v.Immatricolazione.ToShortDateString()),
                     new Tuple<string, string>("Stato",v.Stato),
                     v.IsKmZero?new Tuple<string, string>("Km Zero","vero"):null,
-                    new Tuple<string, string>("Chilometraggio",v.KmPercorsi.ToString("C").Split(',')[0] + " Km"),
+                    new Tuple<string, string>("Chilometraggio",v.KmPercorsi.ToString().Split(',')[0] + " Km"),
                     new Tuple<string, string>("Colore",v.Colore),
                     new Tuple<string, string>(v is Auto?"AirBag":"Marca Sella",v is Auto?(v as Auto).NumeroAirBag.ToString():(v as Moto).MarcaSella),
                 };
             this.dgvDettagli.DefaultCellStyle.SelectionBackColor = Color.FromArgb(45, 45, 45);
             for (int i = 0; i < values.Length; i++)
-                if(values!=null)
+                if(values[i]!=null)
                     this.dgvDettagli.Rows.Add(values[i].Item1, values[i].Item2);//VENGONO AGGIUNTE LE CELLE
             foreach (DataGridViewRow row in this.dgvDettagli.Rows)
             {
@@ -40,6 +40,7 @@ namespace CustomControlsProject {
                 row.Selected = false;
             }
             this.dgvDettagli.ClearSelection();
+            this.lblPrezzo.Text = this.Mezzo.GetPrezzo();
             this.lblMarcaModello.Text = this.Mezzo.Marca + " " + this.Mezzo.Modello;
 
 

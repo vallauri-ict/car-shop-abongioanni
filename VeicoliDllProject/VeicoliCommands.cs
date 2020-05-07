@@ -13,6 +13,7 @@ namespace VenditaVeicoliDllProject {
             public OleDbCommand GetCommand() { return cmd; }
             public void AggiungiParametri(Veicolo v)
             {
+                
                 cmd.Parameters.Add("@targa", OleDbType.VarChar, 255).Value = v.Targa;
                 cmd.Parameters.Add("@automoto", OleDbType.Boolean).Value = (v is Auto);
                 cmd.Parameters.Add("@marca", OleDbType.VarChar, 255).Value = v.Marca;

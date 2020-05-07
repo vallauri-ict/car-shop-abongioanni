@@ -175,7 +175,7 @@ namespace VenditaVeicoliDllProject {
 
         public string GetPrezzo()
         {
-            return this.Prezzo.ToString("C").Split(',')[0] + "€";
+            return this.Prezzo.ToString("C2").Replace("£", "€");
         }
 
         public object this[string propertyName] {

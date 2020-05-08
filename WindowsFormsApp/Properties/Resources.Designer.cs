@@ -207,6 +207,15 @@ namespace WindowsFormsApp.Properties {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a SALONE VENDITA VEICOLI NUOVI E USATI.
+        /// </summary>
+        public static string PROGRAM_NAME {
+            get {
+                return ResourceManager.GetString("PROGRAM_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap SAVE_ICON {

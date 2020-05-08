@@ -117,10 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ACCESS_DB_NAME" xml:space="preserve">
-    <value>Veicoli.accdb</value>
-  </data>
-  <data name="PROGRAM_NAME" xml:space="preserve">
-    <value>SALONE VENDITA VEICOLI NUOVI E USATI</value>
+  <data name="DATA_DEF" xml:space="preserve">
+    <value>Targa varchar(255) NOT NULL PRIMARY KEY,AutoMoto boolean,Marca varchar(255),Modello varchar(255),Cilindrata int, PotenzaKw double,Immatricolazione datetime,Usato boolean,KmZero boolean,KmPercorsi int,Colore varchar(255),Prezzo double,ImagePath varchar(255),Caratteristica varchar(255)</value>
   </data>
 </root>

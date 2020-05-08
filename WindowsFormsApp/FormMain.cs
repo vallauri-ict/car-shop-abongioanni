@@ -92,6 +92,7 @@ namespace WindowsFormsApp {
         #region Form
         public FormMain()
         {
+            this.Text = Properties.Resources.PROGRAM_NAME;
             resourcesDirectoryPath = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\Risorse\\Resources\\";
             accessDbPath = Path.Combine(resourcesDirectoryPath, Properties.Resources.ACCESS_DB_NAME);
             connString = ("Provider=Microsoft.Ace.Oledb.12.0;Data Source={DbPath};").Replace("{DbPath}", accessDbPath);
@@ -433,7 +434,7 @@ namespace WindowsFormsApp {
         {
             try
             {
-                string s = StringArrayToString(search);
+                string s = string.Join(" ",search);
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx";
                 WordprocessingDocument doc = Word.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx");
                 var mainPart = doc.MainDocumentPart.Document;
@@ -481,7 +482,7 @@ namespace WindowsFormsApp {
 
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
-            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? StringArrayToString(search) : "") + ".xlsx");
+            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ",search) : "") + ".xlsx");
             Excel.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
             MessageBox.Show("Il documento è pronto!");
             Process.Start(path);
@@ -551,15 +552,5 @@ namespace WindowsFormsApp {
                 html = html.Replace("{{Logo}}", "images\\" + logoPath.Split('\\')[3]);
             File.WriteAllText(path, html);//SCRITTURA NELL' INDEX E APERTURA
         }//CREAZIONE HMTL (VOLANTINO)
-
-        private string StringArrayToString(string[] a, char sep = ' ')
-        {
-            string s = "";
-            for (int i = 0; i < a.Length; i++)
-            {
-                s += a[i] + sep;
-            }
-            return s;
-        }
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ConsoleAppProject.Properties {
+namespace VeicoliDllProject.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ConsoleAppProject.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleAppProject.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VeicoliDllProject.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,11 @@ namespace ConsoleAppProject.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Veicoli.accdb.
+        ///   Cerca una stringa localizzata simile a Targa varchar(255) NOT NULL PRIMARY KEY,AutoMoto boolean,Marca varchar(255),Modello varchar(255),Cilindrata int, PotenzaKw double,Immatricolazione datetime,Usato boolean,KmZero boolean,KmPercorsi int,Colore varchar(255),Prezzo double,ImagePath varchar(255),Caratteristica varchar(255).
         /// </summary>
-        public static string ACCESS_DB_NAME {
+        public static string DATA_DEF {
             get {
-                return ResourceManager.GetString("ACCESS_DB_NAME", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una stringa localizzata simile a SALONE VENDITA VEICOLI NUOVI E USATI.
-        /// </summary>
-        public static string PROGRAM_NAME {
-            get {
-                return ResourceManager.GetString("PROGRAM_NAME", resourceCulture);
+                return ResourceManager.GetString("DATA_DEF", resourceCulture);
             }
         }
     }

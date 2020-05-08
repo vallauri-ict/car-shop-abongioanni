@@ -1,7 +1,9 @@
 - help: elenco comandi
-- a: aggiungi veicolo
-- v [targa]: visualizza dettagli veicolo con la targa [targa]
-- e [targa] [proprietà]: permette di modificare il campo [proprietà] del veicolo [targa]
-- d [targa]: elimina il veicolo con targa [targa]
-- word: esporta l'elenco dei veicoli in un documento word
-- excel: esporta l'elenco dei veicoli in un foglio di excel
+- vadd: aggiungi veicolo
+- vshow [targa]: visualizza dettagli veicolo con la targa [targa]
+- vedit [targa] [proprietà]: permette di modificare il campo [proprietà] del veicolo [targa]
+- vdelete [targa]: elimina il veicolo con targa [targa]
+- tcreate: crea la tabella veicoli
+- tdrop: cancella la tabella veicoli
+- tdef: mostra i campi della tabella
+- tcount: ritorna il numero di record

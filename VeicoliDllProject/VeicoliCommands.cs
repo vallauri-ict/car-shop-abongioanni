@@ -64,20 +64,31 @@ namespace VenditaVeicoliDllProject {
         {
             string sql = $"CREATE TABLE Veicoli (" +
                 $"Targa varchar(255) NOT NULL PRIMARY KEY,"+
-                $"AutoMoto boolean,"+
+                $"AutoMoto bit,"+
                 $"Marca varchar(255)," +
                 $"Modello varchar(255)," +
                 $"Cilindrata int," +
-                $"PotenzaKw double," +
+                $"PotenzaKw decimal," +
                 $"Immatricolazione datetime," +
-                $"Usato boolean," +
-                $"KmZero boolean," +
+                $"Usato bit," +
+                $"KmZero bit," +
                 $"KmPercorsi int," +
                 $"Colore varchar(255)," +
-                $"Prezzo double," +
+                $"Prezzo decimal," +
                 $"ImagePath varchar(255)," +
                 $"Caratteristica varchar(255)" +
                 $");";
+            using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati
+            {
+                connection.Open();
+                OleDbCommand cmd = new OleDbCommand(sql, connection);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DropTable(string connString)
+        {
+            string sql = $"DROP TABLE Veicoli;";
             using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati
             {
                 connection.Open();

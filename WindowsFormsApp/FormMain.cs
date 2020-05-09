@@ -130,6 +130,7 @@ namespace WindowsFormsApp {
                 this.pnlMain.Controls.Add(c);
                 c.CardDeleted += Handler_CardDeleted;
                 c.CardShowed += Handler_CardShowed;
+                c.ImmagineCambiata +=Handler_ImageUpdate;
             }
         }//FORM LOAD
 
@@ -211,6 +212,11 @@ namespace WindowsFormsApp {
                 if (this.Tb.SelectedTab != this.tAggiungi)
                 this.Tb.SelectTab(this.tAggiungi);
         }//AGGIUNTA VEICOLO
+
+        private void Handler_ImageUpdate(string p)
+        {
+            this.deletePaths.Add(p);
+        }
 
         private void Handler_VeicoloAggiunto(Veicolo v, Aggiungi a)
         {

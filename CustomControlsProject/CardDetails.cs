@@ -13,6 +13,9 @@ namespace CustomControlsProject {
         public delegate void Close(CardDetails c, TabPage t);
         public event Close TabChiusa;
 
+        public delegate void ImageEdited(CardDetails c);
+        public event ImageEdited ImmagineCambiata;
+
         public CardDetails(Veicolo v)
         {
             InitializeComponent();
@@ -69,6 +72,26 @@ namespace CustomControlsProject {
         private void Esci_Click(object sender, EventArgs e)
         {
             TabChiusa(this, this.tabPage);
+        }
+
+        private void PictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() != DialogResult.Cancel)
+            {
+                Image image = CustomControlsProject.Properties.Resources.NO_IMG; ;
+                try
+                {
+                    using (Stream stream = File.OpenRead(openFileDialog1.FileName))
+                    {
+                        image = System.Drawing.Image.FromStream(stream);
+                        this.Mezzo.ImagePath = openFileDialog1.FileName;
+                    }
+                }
+                catch
+                { }
+                this.pictureBox1.Image = image;
+                ImmagineCambiata(this);
+            }
         }
     }
 }

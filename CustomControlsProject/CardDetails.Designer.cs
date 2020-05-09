@@ -44,9 +44,10 @@ namespace CustomControlsProject {
             this.lblPrezzo.AutoSize = true;
             this.lblPrezzo.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrezzo.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblPrezzo.Location = new System.Drawing.Point(12, 50);
+            this.lblPrezzo.Location = new System.Drawing.Point(18, 77);
+            this.lblPrezzo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPrezzo.Name = "lblPrezzo";
-            this.lblPrezzo.Size = new System.Drawing.Size(31, 29);
+            this.lblPrezzo.Size = new System.Drawing.Size(44, 39);
             this.lblPrezzo.TabIndex = 26;
             this.lblPrezzo.Text = "...";
             // 
@@ -56,9 +57,10 @@ namespace CustomControlsProject {
             this.btnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(125)))), ((int)(((byte)(168)))));
             this.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrint.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnPrint.Location = new System.Drawing.Point(667, 454);
+            this.btnPrint.Location = new System.Drawing.Point(1000, 698);
+            this.btnPrint.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(173, 23);
+            this.btnPrint.Size = new System.Drawing.Size(260, 35);
             this.btnPrint.TabIndex = 25;
             this.btnPrint.Text = "Esporta in Word";
             this.btnPrint.UseVisualStyleBackColor = false;
@@ -81,23 +83,27 @@ namespace CustomControlsProject {
             this.Column2});
             this.dgvDettagli.Font = new System.Drawing.Font("Verdana", 10F);
             this.dgvDettagli.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.dgvDettagli.Location = new System.Drawing.Point(17, 94);
+            this.dgvDettagli.Location = new System.Drawing.Point(26, 145);
+            this.dgvDettagli.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvDettagli.Name = "dgvDettagli";
             this.dgvDettagli.RowHeadersVisible = false;
+            this.dgvDettagli.RowHeadersWidth = 62;
             this.dgvDettagli.RowTemplate.Height = 35;
             this.dgvDettagli.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDettagli.Size = new System.Drawing.Size(326, 340);
+            this.dgvDettagli.Size = new System.Drawing.Size(489, 523);
             this.dgvDettagli.TabIndex = 24;
             // 
             // Column1
             // 
             this.Column1.HeaderText = "Column1";
+            this.Column1.MinimumWidth = 8;
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Column2";
+            this.Column2.MinimumWidth = 8;
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
             // 
@@ -106,20 +112,23 @@ namespace CustomControlsProject {
             this.lblMarcaModello.AutoSize = true;
             this.lblMarcaModello.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMarcaModello.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblMarcaModello.Location = new System.Drawing.Point(12, 9);
+            this.lblMarcaModello.Location = new System.Drawing.Point(18, 14);
+            this.lblMarcaModello.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMarcaModello.Name = "lblMarcaModello";
-            this.lblMarcaModello.Size = new System.Drawing.Size(31, 29);
+            this.lblMarcaModello.Size = new System.Drawing.Size(44, 39);
             this.lblMarcaModello.TabIndex = 22;
             this.lblMarcaModello.Text = "...";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pictureBox1.Location = new System.Drawing.Point(401, 50);
+            this.pictureBox1.Location = new System.Drawing.Point(602, 77);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(439, 386);
+            this.pictureBox1.Size = new System.Drawing.Size(658, 594);
             this.pictureBox1.TabIndex = 21;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.PictureBox1_DoubleClick);
             // 
             // openFileDialog1
             // 
@@ -131,9 +140,10 @@ namespace CustomControlsProject {
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button1.Location = new System.Drawing.Point(488, 454);
+            this.button1.Location = new System.Drawing.Point(732, 698);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(173, 23);
+            this.button1.Size = new System.Drawing.Size(260, 35);
             this.button1.TabIndex = 27;
             this.button1.Text = "Esci";
             this.button1.UseVisualStyleBackColor = false;
@@ -141,7 +151,7 @@ namespace CustomControlsProject {
             // 
             // CardDetails
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.Controls.Add(this.button1);
@@ -151,8 +161,9 @@ namespace CustomControlsProject {
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.pictureBox1);
             this.Location = new System.Drawing.Point(14, 1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CardDetails";
-            this.Size = new System.Drawing.Size(853, 489);
+            this.Size = new System.Drawing.Size(1280, 752);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDettagli)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

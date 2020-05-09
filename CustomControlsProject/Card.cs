@@ -18,11 +18,16 @@ namespace CustomControlsProject {
         private Veicolo mezzo;
         private Veicolo Mezzo { get => this.mezzo; set => this.mezzo = value; }
 
-        public delegate void Dc(Veicolo v, Card card, CardDetails c);
-        public event Dc CardDeleted;
+        public string oldImagePath;
 
-        public delegate void Sc(Veicolo v, CardDetails c);
-        public event Sc CardShowed;
+        public delegate void DeleteCard(Veicolo v, Card card, CardDetails c);
+        public event DeleteCard CardDeleted;
+
+        public delegate void EditImageCard(string c);
+        public event EditImageCard ImmagineCambiata;
+
+        public delegate void ShowCard(Veicolo v, CardDetails c);
+        public event ShowCard CardShowed;
 
         private void EliminaCard()
         {
@@ -54,6 +59,7 @@ namespace CustomControlsProject {
             {
                 image = Properties.Resources.NO_IMG;
             }
+            this.oldImagePath = this.Mezzo.ImagePath;
             this.pcb.BackgroundImage = image;
             this.pcb.BackgroundImageLayout = ImageLayout.Zoom;
             this.lbl.Text = $"{(this.Mezzo.Marca.ToUpper() == "MERCEDES-BENZ" ? "MB" : this.Mezzo.Marca)} {this.Mezzo.Modello} - {this.Mezzo.Targa} {this.Mezzo.Stato}";
@@ -108,12 +114,19 @@ namespace CustomControlsProject {
                 cardDetail.pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             }
             cardDetail.dgvDettagli.SelectionChanged += new EventHandler(this.DgvDettagli_SelectionChanged);
-            cardDetail.btnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
-            cardDetail.lblMarcaModello.Click += new System.EventHandler(this.LblMarcaModello_Click);
-            cardDetail.lblPrezzo.Click += new System.EventHandler(this.LblPrezzo_Click);
-
+            cardDetail.btnPrint.Click += new EventHandler(this.BtnPrint_Click);
+            cardDetail.lblMarcaModello.Click += new EventHandler(this.LblMarcaModello_Click);
+            cardDetail.lblPrezzo.Click += new EventHandler(this.LblPrezzo_Click);
+            cardDetail.ImmagineCambiata += ImmagineAggiornata;
             CardShowed(this.Mezzo, cardDetail);
         }//APRE TAB CON SPECIFICHE
+
+        private void ImmagineAggiornata(CardDetails c)
+        {
+            this.pcb.Image = c.pictureBox1.Image;
+            ImmagineCambiata(oldImagePath);
+            this.oldImagePath = this.Mezzo.ImagePath;
+        }
 
         private void LblMarcaModello_Click(object sender, EventArgs e)
         {
@@ -171,12 +184,12 @@ namespace CustomControlsProject {
                     case 1:
                         m = Interaction.InputBox("Inserisci modifica alla cilindrata (cc):", "Modifica", this.Mezzo.Cilindrata.ToString());
                         this.Mezzo.Cilindrata = Convert.ToInt32(m.ToString().Split(' ')[0]);
-                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Cilindrata.ToString("C").Split(',')[0] + " cc";
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.Cilindrata.ToString().Split(',')[0] + " cc";
                         break;
                     case 2:
                         m = Interaction.InputBox("Inserisci modifica alla Potenza (Kw):", "Modifica", this.Mezzo.PotenzaKw.ToString());
                         this.Mezzo.PotenzaKw = Convert.ToDouble(m.ToString().Split(' ')[0]);
-                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.PotenzaKw.ToString("C").Split(',')[0] + " Kw";
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.PotenzaKw.ToString().Split(',')[0] + " Kw";
                         break;
                     case 3:
                         m = Interaction.InputBox("Inserisci modifica alla data di immatricolazione:", "Modifica", this.Mezzo.Immatricolazione.ToShortDateString());
@@ -195,7 +208,7 @@ namespace CustomControlsProject {
                     case 6:
                         m = Interaction.InputBox("Inserisci modifica al Chilometraggio (Km):", "Modifica", this.Mezzo.KmPercorsi.ToString());
                         this.Mezzo.KmPercorsi = Convert.ToInt32(m.ToString().Split(' ')[0]);
-                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.KmPercorsi.ToString("C").Split(',')[0] + " Km";
+                        cardDetail.dgvDettagli.CurrentRow.Cells[1].Value = this.Mezzo.KmPercorsi.ToString().Split(',')[0] + " Km";
                         break;
                     case 7:           //VA IN ERRORE NON SO PER QUALE MOTIVO
                         m = Interaction.InputBox("Scegli colore", "Modifica", this.Mezzo.Colore);//crea metodo statico input che ritorna stringa

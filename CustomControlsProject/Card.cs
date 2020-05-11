@@ -123,7 +123,8 @@ namespace CustomControlsProject {
 
         private void ImmagineAggiornata(CardDetails c)
         {
-            this.pcb.Image = c.pictureBox1.Image;
+            this.pcb.BackgroundImage = c.pictureBox1.BackgroundImage;
+            this.pcb.BackgroundImageLayout = ImageLayout.Zoom;
             ImmagineCambiata(oldImagePath);
             this.oldImagePath = this.Mezzo.ImagePath;
         }

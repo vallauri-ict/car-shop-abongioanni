@@ -216,6 +216,7 @@ namespace WindowsFormsApp {
         private void Handler_ImageUpdate(string p)
         {
             this.deletePaths.Add(p);
+            modifica = true;
         }
 
         private void Handler_VeicoloAggiunto(Veicolo v, Aggiungi a)

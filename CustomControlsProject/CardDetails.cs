@@ -57,6 +57,8 @@ namespace CustomControlsProject {
             }
             catch
             { }
+            this.pictureBox1.BackgroundImage = image;
+            this.pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
         }
 
         public TabPage GetTabPage()
@@ -89,7 +91,8 @@ namespace CustomControlsProject {
                 }
                 catch
                 { }
-                this.pictureBox1.Image = image;
+                this.pictureBox1.BackgroundImage = image;
+                this.pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
                 ImmagineCambiata(this);
             }
         }

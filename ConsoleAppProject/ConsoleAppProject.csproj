@@ -74,10 +74,6 @@
       <Project>{b4390baa-dfd6-4a3c-9d08-0e5071349005}</Project>
       <Name>OpenXmlDllProject</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Risorse\Risorse.csproj">
-      <Project>{D6CAE76B-2F31-48F6-B236-2AEE999D04CF}</Project>
-      <Name>Risorse</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VeicoliDllProject\VeicoliDllProject.csproj">
       <Project>{1158D77A-34CD-443E-962C-27AF74BEC434}</Project>
       <Name>VeicoliDllProject</Name>
@@ -98,6 +94,17 @@
     <Content Include="Commands.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ADOX">
+      <Guid>{00000600-0000-0010-8000-00AA006D2EA4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

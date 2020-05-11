@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using ADOX;
 using CustomControlsProject;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -12,6 +13,7 @@ using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using OpenXmlDllProject;
 using VenditaVeicoliDllProject;
+using Keys = System.Windows.Forms.Keys;
 
 namespace WindowsFormsApp {
     public partial class FormMain : Form {
@@ -80,8 +82,6 @@ namespace WindowsFormsApp {
         private readonly SerializableBindingList<Veicolo> listaVeicoliAggiunti;//LISTA DATI
         private SerializableBindingList<Veicolo> listaVeicoli;//LISTA DATI
 
-        private readonly string resourcesDirectoryPath;
-        private readonly string accessDbPath;
         private readonly string connString;
         private bool modifica = false;//MODIFICHE EFFETTUATE
         private readonly List<string> deletePaths = new List<string>();
@@ -93,9 +93,25 @@ namespace WindowsFormsApp {
         public FormMain()
         {
             this.Text = Properties.Resources.PROGRAM_NAME;
-            resourcesDirectoryPath = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\Risorse\\Resources\\";
-            accessDbPath = Path.Combine(resourcesDirectoryPath, Properties.Resources.ACCESS_DB_NAME);
-            connString = ("Provider=Microsoft.Ace.Oledb.12.0;Data Source={DbPath};").Replace("{DbPath}", accessDbPath);
+            string foo = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Car-shop");
+
+            if (!Directory.Exists(foo))
+            {
+                Directory.CreateDirectory(foo);
+                File.Create(Path.Combine(foo, Properties.Resources.ACCESS_DB_NAME));
+            }
+            else
+            {
+                foo = Path.Combine(foo, Properties.Resources.ACCESS_DB_NAME);
+                if (!File.Exists(foo))
+                {
+                    Catalog c = new Catalog();
+                    c.Create($"Provider=Microsoft.Ace.Oledb.12.0;Data Source={foo};");
+                    c = null;
+                }
+            }
+
+            connString = $"Provider=Microsoft.Ace.Oledb.12.0;Data Source={foo};";
             vc = new VeicoliCommands();
             listaVeicoliEliminati = new SerializableBindingList<Veicolo>();
             listaVeicoliAggiunti = new SerializableBindingList<Veicolo>();
@@ -107,7 +123,7 @@ namespace WindowsFormsApp {
         {
             try
             {
-                new VeicoliCommands().CreateTable(connString);
+                vc.CreateTable(connString);
             }
             catch (OleDbException) { }
 

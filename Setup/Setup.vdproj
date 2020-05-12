@@ -52,13 +52,13 @@
         "Entry"
         {
         "MsmKey" = "8:_48B2AD33542FEBA220E029BD7BAE9A5E"
-        "OwnerKey" = "8:_C1BA6A907A456F668783F212079D1CD7"
+        "OwnerKey" = "8:_328B1036054A45A78601045A3816721F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_48B2AD33542FEBA220E029BD7BAE9A5E"
-        "OwnerKey" = "8:_328B1036054A45A78601045A3816721F"
+        "OwnerKey" = "8:_C1BA6A907A456F668783F212079D1CD7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,7 +262,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A6F5BB4883D430F6CFD699513D32C57C"
+        "OwnerKey" = "8:_B1793C5BCEB0835EF51C5440EBDA305B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_48B2AD33542FEBA220E029BD7BAE9A5E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -316,18 +322,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_48B2AD33542FEBA220E029BD7BAE9A5E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B1793C5BCEB0835EF51C5440EBDA305B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_956EC1D751814FFD0ACD73649D071A90"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -367,6 +361,12 @@
         "OwnerKey" = "8:_A267C9B806392D9FE182BCBB0061B1C6"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A6F5BB4883D430F6CFD699513D32C57C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -385,6 +385,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -401,6 +409,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -981,7 +997,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Setup"
+        "ProductName" = "8:Car-Shop"
         "ProductCode" = "8:{75DD5494-708D-416F-A319-A9D789449CA1}"
         "PackageCode" = "8:{8E16909D-4130-4A38-AB6A-CD6A35B6C09D}"
         "UpgradeCode" = "8:{63C87565-8951-49D4-ACD8-AEA9D9F864ED}"
@@ -994,7 +1010,7 @@
         "Manufacturer" = "8:VallauriSoft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.vallauri.edu/public/ita/pagina.asp"
-        "Title" = "8:Setup"
+        "Title" = "8:Car-Shop"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Alberto Bongioanni"
         "Keywords" = "8:"

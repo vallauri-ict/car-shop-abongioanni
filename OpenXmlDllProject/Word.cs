@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System.Collections.Generic;
+using System.IO;
 using A = DocumentFormat.OpenXml.Drawing;
 using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 
-namespace OpenXmlDllProject {
-    public class WordParameter {
+namespace OpenXmlDllProject
+{
+    public class WordParameter
+    {
         public string Name { get; set; }
         public string Text { get; set; }
         public FileInfo Image { get; set; }
     }
-    public class Word {
-        public static void InsertPicture(WordprocessingDocument wordprocessingDocument, string fileName)
+    public class Word
+    {
+        public Word() { }
+
+        public void InsertPicture(WordprocessingDocument wordprocessingDocument, string fileName)
         {
             MainDocumentPart mainPart = wordprocessingDocument.MainDocumentPart;
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
@@ -27,28 +31,41 @@ namespace OpenXmlDllProject {
             AddImageToBody(wordprocessingDocument, mainPart.GetIdOfPart(imagePart));
         }
 
-        public static WordprocessingDocument DOC { get; set; }
+        public WordprocessingDocument DOC { get; set; }
 
-        public static WordprocessingDocument CreateWordFile(string title, string path, string fileName)
+        public WordprocessingDocument CreateWordFile(string title, string path)
         {
-            WordprocessingDocument doc = WordprocessingDocument.Create(Path.Combine(path, fileName), DocumentFormat.OpenXml.WordprocessingDocumentType.Document);
-            // Add a main document part. 
-            MainDocumentPart mainPart = doc.AddMainDocumentPart();
+            WordprocessingDocument doc = WordprocessingDocument.Create(path, WordprocessingDocumentType.Document);
 
-            // Create the document structure and add some text.
-            mainPart.Document = new Document();
-            Body body = mainPart.Document.AppendChild(new Body());
-            string xml = File.ReadAllText(@".\Templates\Header.txt").Replace("{{headerText}}", title);
-            body.InnerXml += xml;
+            using (WordprocessingDocument docTemplate = WordprocessingDocument.Open(@"./Templates/t.docx", true))
+            {
+                string docText = null;
+                using (StreamReader sr = new StreamReader(docTemplate.MainDocumentPart.GetStream()))
+                {
+                    docText = sr.ReadToEnd();
+                }
+
+                docText = docText.Replace("mainTitle", title);
+
+                using (StreamWriter sw = new StreamWriter(doc.AddMainDocumentPart().GetStream(FileMode.Create)))
+                {
+                    doc.MainDocumentPart.Document = new Document();
+                    doc.MainDocumentPart.Document.AppendChild<Body>(new Body());
+
+                    sw.Write(docText);
+                }
+
+            }
             return doc;
+
         }
 
-        public static Table CreateTable(string[][] content)
+        public Table CreateTable(string[][] content)
         {
             string xml;
             int n = content[0].Length;
             Table t = new Table();
-            t.AppendChild(Word.GetTableProperties("#000000", BorderValues.Thick, "5000"));
+            t.AppendChild(GetTableProperties("#000000", BorderValues.Thick, "5000"));
             for (int i = 0; i < content.Length; i++)
             {
                 TableRow r = new TableRow();
@@ -62,31 +79,14 @@ namespace OpenXmlDllProject {
             return t;
         }
 
-        public static Paragraph CreateParagraph(string text)
+        public Paragraph CreateParagraph(string text)
         {
             Paragraph p = new Paragraph(new Justification() { Val = JustificationValues.Left });
             p.InnerXml += File.ReadAllText(@".\Templates\Paragraph.txt").Replace("{{content}}", text);
             return p;
         }
 
-        public static void InsertPicture(TableCell cell, string fileName)
-        {
-            MainDocumentPart mainPart = DOC.MainDocumentPart;
-            var pictureCell = cell;
-
-            ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
-            Image image2 = Image.FromFile(fileName);
-            image2.Dispose();
-            using (FileStream stream = new FileStream(fileName, FileMode.Open))
-            {
-                imagePart.FeedData(stream);
-            }
-
-            pictureCell.RemoveAllChildren();
-            AddImageToCell(pictureCell, mainPart.GetIdOfPart(imagePart));
-        }
-
-        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId)
+        private void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId)
         {
             // Define the reference of the image.
             var element =
@@ -156,73 +156,7 @@ namespace OpenXmlDllProject {
             wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
         }
 
-        private static void AddImageToCell(TableCell cell, string relationshipId)
-        {
-            var element =
-              new Drawing(
-                new DW.Inline(
-                  new DW.Extent() { Cx = 990000L, Cy = 792000L },
-                  new DW.EffectExtent()
-                  {
-                      LeftEdge = 0L,
-                      TopEdge = 0L,
-                      RightEdge = 0L,
-                      BottomEdge = 0L
-                  },
-                  new DW.DocProperties()
-                  {
-                      Id = 1U,
-                      Name = "Picture 1"
-                  },
-                  new DW.NonVisualGraphicFrameDrawingProperties(
-                      new A.GraphicFrameLocks() { NoChangeAspect = true }),
-                  new A.Graphic(
-                    new A.GraphicData(
-                      new PIC.Picture(
-                        new PIC.NonVisualPictureProperties(
-                          new PIC.NonVisualDrawingProperties()
-                          {
-                              Id = 0U,
-                              Name = "New Bitmap Image.jpg"
-                          },
-                          new PIC.NonVisualPictureDrawingProperties()),
-                        new PIC.BlipFill(
-                          new A.Blip(
-                            new A.BlipExtensionList(
-                              new A.BlipExtension()
-                              {
-                                  Uri = "{28A0092B-C50C-407E-A947-70E740481C1C}"
-                              })
-                           )
-                          {
-                              Embed = relationshipId,
-                              CompressionState =
-                              A.BlipCompressionValues.Print
-                          },
-                          new A.Stretch(
-                            new A.FillRectangle())),
-                          new PIC.ShapeProperties(
-                            new A.Transform2D(
-                              new A.Offset() { X = 0L, Y = 0L },
-                              new A.Extents() { Cx = 990000L, Cy = 792000L }),
-                            new A.PresetGeometry(
-                              new A.AdjustValueList()
-                            )
-                            { Preset = A.ShapeTypeValues.Rectangle }))
-                    )
-                    { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                )
-                {
-                    DistanceFromTop = 0U,
-                    DistanceFromBottom = 0U,
-                    DistanceFromLeft = 0U,
-                    DistanceFromRight = 0U
-                });
-
-            cell.Append(new Paragraph(new Run(element)));
-        }
-
-        public static void AddStyle(MainDocumentPart mainPart, string styleId, string styleName, string fontName, int fontSize, string rgbColor, bool isBold, bool isItalic, bool isUnderline)
+        public void AddStyle(MainDocumentPart mainPart, string styleId, string styleName, string fontName, int fontSize, string rgbColor, bool isBold, bool isItalic, bool isUnderline)
         {
             // we have to set the properties
             RunProperties rPr = new RunProperties();
@@ -259,7 +193,7 @@ namespace OpenXmlDllProject {
             stylePart.Styles.Save(); // we save the style part
         }
 
-        public static Paragraph CreateParagraphWithStyle(string styleId, JustificationValues justification)
+        public Paragraph CreateParagraphWithStyle(string styleId, JustificationValues justification)
         {
             Paragraph paragraph = new Paragraph();
 
@@ -274,7 +208,7 @@ namespace OpenXmlDllProject {
             return paragraph;
         }
 
-        public static void AddTextToParagraph(Paragraph paragraph, string content)
+        public void AddTextToParagraph(Paragraph paragraph, string content)
         {
             Run r = new Run();
             Text t = new Text(content);
@@ -282,7 +216,7 @@ namespace OpenXmlDllProject {
             paragraph.Append(r);
         }
 
-        public static void CreateBulletNumberingPart(MainDocumentPart mainPart, string bulletChar = "-")
+        public void CreateBulletNumberingPart(MainDocumentPart mainPart, string bulletChar = "-")
         {
             NumberingDefinitionsPart numberingPart =
                         mainPart.AddNewPart<NumberingDefinitionsPart>("NDPBullet");
@@ -303,7 +237,7 @@ namespace OpenXmlDllProject {
             element.Save(numberingPart);
         }
 
-        public static void CreateBulletOrNumberedList(int indentLeft, int indentHanging, List<Paragraph> paragraphs, int numberOfParagraph, string[] texts, bool isBullet = true)
+        public void CreateBulletOrNumberedList(int indentLeft, int indentHanging, List<Paragraph> paragraphs, int numberOfParagraph, string[] texts, bool isBullet = true)
         {
             int numberingLevelReference, numberingId;
             if (isBullet)
@@ -332,7 +266,7 @@ namespace OpenXmlDllProject {
                 InsertParagraphInList(paragraphs, ppUnordered, texts[i]);
         }
 
-        public static void InsertParagraphInList(List<Paragraph> paragraphs, ParagraphProperties ppUnordered, string text)
+        public void InsertParagraphInList(List<Paragraph> paragraphs, ParagraphProperties ppUnordered, string text)
         {
             Paragraph p = new Paragraph
             {
@@ -342,24 +276,7 @@ namespace OpenXmlDllProject {
             paragraphs.Add(p);
         }
 
-        public static Table CreateTable(string[] intestazione, string[][] contenuto, TableProperties tableProperties, string[] imagesArray = img)
-        {
-            Table table = new Table();
-            table.AppendChild(tableProperties);
-            table.Append(CreateRow(intestazione));
-            for (int i = 0; i < contenuto.Length; i++)
-            {
-                if (imagesArray == null)
-                    table.Append(CreateRow(contenuto[i]));
-                else
-                    table.Append(CreateRow(contenuto[i], imagesArray[i]));
-            }
-            return table;
-        }
-
-        private const string[] img = null;
-
-        public static Table CreateTable(string[][] contenuto, TableProperties tableProperties)
+        public Table CreateTable(string[][] contenuto, TableProperties tableProperties)
         {
             Table table = new Table();
             table.AppendChild(tableProperties);
@@ -368,7 +285,7 @@ namespace OpenXmlDllProject {
             return table;
         }
 
-        public static TableProperties GetTableProperties(
+        public TableProperties GetTableProperties(
             string borderColor = "#0000000",
             BorderValues b = BorderValues.None,
             string tableWidth = "2500"
@@ -437,7 +354,7 @@ namespace OpenXmlDllProject {
             return tblProperties;
         }
 
-        private static TableRow CreateRow(string[] s, string fontSize = "22", bool isBold = false)
+        private TableRow CreateRow(string[] s, string fontSize = "22", bool isBold = false)
         {
             TableRow row = new TableRow();
             row.Append(new TableRowHeight() { Val = 20 });
@@ -465,7 +382,7 @@ namespace OpenXmlDllProject {
             return row;
         }
 
-        public static void AddHeadingStyle(MainDocumentPart mainPart)
+        public void AddHeadingStyle(MainDocumentPart mainPart)
         {
             // we have to set the properties
             RunProperties rPr = new RunProperties();
@@ -493,7 +410,7 @@ namespace OpenXmlDllProject {
             stylePart.Styles.Save(); // we save the style part
         }
 
-        public static Paragraph CreateHeading(string content)
+        public Paragraph CreateHeading(string content)
         {
             Paragraph heading = new Paragraph();
             Run r = new Run();

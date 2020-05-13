@@ -33,11 +33,6 @@ namespace ConsoleAppProject {
             VeicoliCommands vc = new VeicoliCommands();
             try
             {
-                vc.CreateTable(connString);
-            }
-            catch (OleDbException) { }
-            try
-            {
                 listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli;"));
             }
             catch (OleDbException e)
@@ -261,7 +256,7 @@ namespace ConsoleAppProject {
                     }
                     case "X": break;
                     default:
-                        Console.WriteLine("Sintassi comando errata!");
+                        Console.WriteLine("#");
                         Console.ReadKey();
                         Console.Clear();
                         break;

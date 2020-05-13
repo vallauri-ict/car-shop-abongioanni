@@ -1,23 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Collections.Generic;
+using System.Reflection;
 using X14 = DocumentFormat.OpenXml.Office2010.Excel;
 using X15 = DocumentFormat.OpenXml.Office2013.Excel;
 
 
-namespace OpenXmlDllProject {
-    public class Excel {
-        public static void CreateExcelFile<T>(List<T> data, string path)
+namespace OpenXmlDllProject
+{
+    public class Excel
+    {
+        public SpreadsheetDocument CreateExcelFile<T>(List<T> data, string path)
         {
             using (SpreadsheetDocument package = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
             {
                 CreatePartsForExcel(package, data);
+                return package;
             }
         }
 
-        private static void CreatePartsForExcel<T>(SpreadsheetDocument document, List<T> data)
+        private void CreatePartsForExcel<T>(SpreadsheetDocument document, List<T> data)
         {
             SheetData partSheetData = GenerateSheetdataForDetails(data);
 
@@ -31,7 +34,7 @@ namespace OpenXmlDllProject {
             GenerateWorksheetPartContent(worksheetPart1, partSheetData);
         }
 
-        private static void GenerateWorkbookPartContent(WorkbookPart workbookPart1)
+        private void GenerateWorkbookPartContent(WorkbookPart workbookPart1)
         {
             Workbook workbook1 = new Workbook();
             Sheets sheets1 = new Sheets();
@@ -41,7 +44,7 @@ namespace OpenXmlDllProject {
             workbookPart1.Workbook = workbook1;
         }
 
-        private static void GenerateWorksheetPartContent(WorksheetPart worksheetPart1, SheetData sheetData1)
+        private void GenerateWorksheetPartContent(WorksheetPart worksheetPart1, SheetData sheetData1)
         {
             Worksheet worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
             worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -68,7 +71,7 @@ namespace OpenXmlDllProject {
             worksheetPart1.Worksheet = worksheet1;
         }
 
-        private static void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart1)
+        private void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart1)
         {
             Stylesheet stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
             stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -220,7 +223,7 @@ namespace OpenXmlDllProject {
             workbookStylesPart1.Stylesheet = stylesheet1;
         }
 
-        private static SheetData GenerateSheetdataForDetails<T>(List<T> data)
+        private SheetData GenerateSheetdataForDetails<T>(List<T> data)
         {
             SheetData sheetData1 = new SheetData();
             sheetData1.Append(CreateHeaderRowForExcel(data[0]));
@@ -233,7 +236,7 @@ namespace OpenXmlDllProject {
             return sheetData1;
         }
 
-        private static Row CreateHeaderRowForExcel(object testmodel)
+        private Row CreateHeaderRowForExcel(object testmodel)
         {
             Row workRow = new Row();
             var values = GetProperties(testmodel);
@@ -242,21 +245,30 @@ namespace OpenXmlDllProject {
             return workRow;
         }
 
-        private static Row GenerateRowForChildPartDetail(object testmodel)
+        private Row GenerateRowForChildPartDetail(object testmodel)
         {
             Row tRow = new Row();
             var values = GetProperties(testmodel);
+
             foreach (var p in values)
-                tRow.Append(CreateCell(p.GetValue(testmodel, null).ToString()));
+            {
+                try
+                {
+                    tRow.Append(CreateCell(p.GetValue(testmodel, new object[] { "Targa" }).ToString()));
+                }
+                catch {
+                    tRow.Append(CreateCell(p.GetValue(testmodel, new object[] { "Targa" }).ToString()));
+                }
+            }
             return tRow;
         }
 
-        private static PropertyInfo[] GetProperties(object obj)
+        private PropertyInfo[] GetProperties(object obj)
         {
             return obj.GetType().GetProperties();
         }
 
-        private static Cell CreateCell(string text)
+        private Cell CreateCell(string text)
         {
             Cell cell = new Cell
             {
@@ -267,7 +279,7 @@ namespace OpenXmlDllProject {
             return cell;
         }
 
-        private static Cell CreateCell(string text, uint styleIndex)
+        private Cell CreateCell(string text, uint styleIndex)
         {
             Cell cell = new Cell
             {
@@ -278,7 +290,7 @@ namespace OpenXmlDllProject {
             return cell;
         }
 
-        private static EnumValue<CellValues> ResolveCellDataTypeOnValue(string text)
+        private EnumValue<CellValues> ResolveCellDataTypeOnValue(string text)
         {
             if (int.TryParse(text, out _) || double.TryParse(text, out _))
             {

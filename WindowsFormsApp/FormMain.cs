@@ -138,7 +138,7 @@ namespace WindowsFormsApp {
             listaVeicoliAggiunti.Clear();
             listaVeicoli.Clear();
 
-            listaVeicoli = vc.GetVeicoliList(new VeicoliCommands().GetRows(connString, "SELECT * FROM Veicoli"));
+            listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli"));
 
             foreach (var item in listaVeicoli)
             {//CREO LE CARTE GRAFICHE
@@ -457,14 +457,17 @@ namespace WindowsFormsApp {
         {
             try
             {
+                Word w = new Word();
                 string s = string.Join(" ",search);
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx";
-                WordprocessingDocument doc = Word.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx");
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino" + (this.Tb.SelectedTab == tRicerca && this.results != null ? " "+s : "") + ".docx";
+                WordprocessingDocument doc = w.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx"));
+                
                 var mainPart = doc.MainDocumentPart.Document;
                 Body body = mainPart.GetFirstChild<Body>();
+
                 if (this.Tb.SelectedTab == tRicerca && this.results != null)
                 {
-                    body.AppendChild(Word.CreateParagraph($"Ricerca basata su: \"{s}\""));
+                    body.AppendChild(w.CreateParagraph($"Ricerca basata su: \"{s}\""));
                 }// SE SI PREME IL BOTTONE DI ESPORTAZIONE SULLA PAGINA DEI RISULTATI DI UNA RICERCA, VERRANNO ESPORATI QUEI RISULTATI
                 string[][] contenuto;
                 if (this.Tb.SelectedTab == tRicerca && this.results != null)
@@ -492,10 +495,11 @@ namespace WindowsFormsApp {
                     }
                 }
                 // Append a table
-                body.Append(Word.CreateTable(contenuto));
+                body.Append(w.CreateTable(contenuto));
+                doc.Close();
                 doc.Dispose();
                 MessageBox.Show("Il documento è pronto!");
-                Process.Start(path);
+                //Process.Start(path);
             }
             catch (Exception ex)
             {
@@ -505,10 +509,12 @@ namespace WindowsFormsApp {
 
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
+            Excel xls = new Excel();
             string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ",search) : "") + ".xlsx");
-            Excel.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
+            SpreadsheetDocument d= xls.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
+            
             MessageBox.Show("Il documento è pronto!");
-            Process.Start(path);
+            //Process.Start(path);
         }//ESPORTA I DATI DEI VEICOLI CREANDO UN FOGLIO DI CALCOLO EXCEL
 
         #endregion

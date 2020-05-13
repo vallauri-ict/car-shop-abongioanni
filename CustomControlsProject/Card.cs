@@ -141,8 +141,9 @@ namespace CustomControlsProject {
         {
             try
             {
+                Word w = new Word();
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $"\\{this.Mezzo.Marca} {this.Mezzo.Modello} {this.Mezzo.Stato}.docx";
-                WordprocessingDocument doc = Word.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{this.Mezzo.Marca} {this.Mezzo.Modello} {this.Mezzo.Stato}.docx");
+                WordprocessingDocument doc =w.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{this.Mezzo.Marca} {this.Mezzo.Modello} {this.Mezzo.Stato}.docx"));
                 var mainPart = doc.MainDocumentPart.Document;
                 Body body = mainPart.GetFirstChild<Body>();
                 string[] datiMezzo = this.Mezzo.GetDatiIntoAtringArray();
@@ -161,7 +162,7 @@ namespace CustomControlsProject {
                         new string[]{"Prezzo",datiMezzo[9]}
                 };
                 // Append a table
-                body.Append(Word.CreateTable(contenuto));
+                body.Append(w.CreateTable(contenuto));
                 //ERRORE IMMAGINE GIA' IN USA DA UN'ALTRO PROCESSO
                 //OpenXmlUtils.InsertPicture(doc, ".\\www\\"+this.Mezzo.ImagePath.Substring(1)); 
                 doc.Dispose();

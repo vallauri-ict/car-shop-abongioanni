@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.OleDb;
 using System.IO;
 using ADOX;
+using OpenXmlDllProject;
 using VenditaVeicoliDllProject;
 
 namespace ConsoleAppProject {
@@ -41,17 +43,16 @@ namespace ConsoleAppProject {
             {
                 Console.WriteLine(e.Message);
             }
-
+            Console.WriteLine("\n\t\t\t=== " + Properties.Resources.PROGRAM_NAME + " ===\n");
+            foreach (Veicolo v in listaVeicoli)
+            {
+                Console.WriteLine($"{v.Targa} - {v.Marca} {v.Modello} - {v.Stato} {v.GetPrezzo()} - {v.Colore}");
+            }
             string scelta;
             do
             {
                 bool trovato = false;
-                Console.WriteLine("\n\t\t\t=== " + Properties.Resources.PROGRAM_NAME + " ===\n");
-                foreach (Veicolo v in listaVeicoli)
-                {
-                    Console.WriteLine($"{v.Targa} - {v.Marca} {v.Modello} - {v.Stato} {v.GetPrezzo()} - {v.Colore}");
-                }
-                Console.Write("\n# ");
+                Console.Write("# ");
                 scelta = Console.ReadLine();
                 if (!created && scelta.ToUpper().Split(' ')[0]!="TCREATE")
                 {
@@ -61,6 +62,49 @@ namespace ConsoleAppProject {
 
                 switch (scelta.ToUpper().Split(' ')[0])
                 {
+                    case "EXPORT":
+                    {
+                        string dataType;
+                        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        try
+                        {
+                            dataType = scelta.Split(' ')[1].Trim().ToUpper();
+                        }
+                        catch { Console.WriteLine("Sintassi comando errata!"); Console.ReadKey(); break; }
+                        FileExport fe = new FileExport();
+                        switch (dataType)
+                        {
+                            case "JSON":
+                            {
+                                fe.SerializeToJson(listaVeicoli, Path.Combine(desktop, "Veicoli.json"));
+                                Console.WriteLine("Esportazione completata!");
+                                break;
+                            }
+                            case "XML":
+                            {
+                                var f = new FileExport.SerializableBindingList<Veicolo>(listaVeicoli.ToList());
+                                fe.SerializeToXml<Veicolo>(f, Path.Combine(desktop, "Veicoli.xml"));
+                                Console.WriteLine("Esportazione completata!");
+                                break;
+                            }
+                            case "EXCEL":
+                            {
+                                List<string[]> l = new List<string[]>();
+                                foreach (var v in listaVeicoli)
+                                {
+                                    l.Add(new string[] { v.Targa, v.Marca, v.Modello, v.Immatricolazione.ToShortDateString(), v.Stato, v.GetPrezzo() });
+                                }
+                                string path = Path.Combine(desktop, "Veicoli.xlsx");
+                                Excel xls = new Excel("Veicoli", path, l, new string[] { "Targa", "Marca", "Modello", "Immatricolazione", "Stato", "Prezzo" });
+                                Console.WriteLine("Il documento è pronto!");
+                                break;
+                            }
+                            default:
+                                Console.WriteLine("Formato non supportato!");
+                                break;
+                        }
+                        break;
+                    }
                     case "HELP":
                     {
                         Console.WriteLine("\n" + File.ReadAllText(@".\Commands.txt") + "\n");
@@ -209,6 +253,11 @@ namespace ConsoleAppProject {
                         if (!trovato) Console.WriteLine("Veicolo non trovato"); Console.ReadKey();
                         break;
                     }
+                    case "CLEAR":
+                    {
+                        Console.Clear();
+                        break;
+                    }
                     case "TDROP":
                     {
                         Console.Write($"SEI SICURO DI VOLER ELIMINARE I DATI ? [S/N]: ");
@@ -226,6 +275,14 @@ namespace ConsoleAppProject {
                                 Console.WriteLine(e.Message);
                             }
 
+                        }
+                        break;
+                    }
+                    case "TSHOW":
+                    {
+                        foreach (Veicolo v in listaVeicoli)
+                        {
+                            Console.WriteLine($"{v.Targa} - {v.Marca} {v.Modello} - {v.Stato} {v.GetPrezzo()} - {v.Colore}");
                         }
                         break;
                     }
@@ -265,9 +322,6 @@ namespace ConsoleAppProject {
                     }
                     case "X": break;
                     default:
-                        Console.WriteLine("#");
-                        Console.ReadKey();
-                        Console.Clear();
                         break;
                 }
             } while (scelta.ToUpper() != "X");

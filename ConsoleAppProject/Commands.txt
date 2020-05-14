@@ -1,9 +1,12 @@
 - help: elenco comandi
+- clear: pulisce la console
 - vadd: aggiungi veicolo
 - vshow [targa]: visualizza dettagli veicolo con la targa [targa]
 - vedit [targa] [proprietà]: permette di modificare il campo [proprietà] del veicolo [targa]
 - vdelete [targa]: elimina il veicolo con targa [targa]
+- tshow: mostra i record
 - tcreate: crea la tabella veicoli
 - tdrop: cancella la tabella veicoli
 - tdef: mostra i campi della tabella
 - tcount: ritorna il numero di record
+- export [json,xml,csv,excel]

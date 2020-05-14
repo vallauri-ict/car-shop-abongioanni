@@ -14,6 +14,7 @@ using OpenXmlDllProject;
 using VenditaVeicoliDllProject;
 using Keys = System.Windows.Forms.Keys;
 
+
 namespace WindowsFormsApp {
     public partial class FormMain : Form {
 
@@ -509,8 +510,17 @@ namespace WindowsFormsApp {
 
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
+            List<string[]> l = new List<string[]>();
+            foreach (var v in listaVeicoli)
+            {
+                l.Add(new string[] {v.Targa,v.Marca,v.Modello,v.Immatricolazione.ToShortDateString(),v.Stato,v.GetPrezzo() });
+            }
+            foreach (var v in listaVeicoliAggiunti)
+            {
+                l.Add(new string[] { v.Targa, v.Marca, v.Modello, v.Immatricolazione.ToShortDateString(), v.Stato, v.GetPrezzo() });
+            }
             string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ", search) : "") + ".xlsx");
-            Excel xls = new Excel("Veicoli",path);
+            Excel xls = new Excel("Veicoli",path,l,new string[] { "Targa","Marca","Modello","Immatricolazione","Stato","Prezzo"});
             MessageBox.Show("Il documento è pronto!");
             //Process.Start(path);
         }//ESPORTA I DATI DEI VEICOLI CREANDO UN FOGLIO DI CALCOLO EXCEL

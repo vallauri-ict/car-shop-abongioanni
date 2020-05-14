@@ -8,8 +8,10 @@ namespace OpenXmlDllProject
 {
     public class Excel
     {
-        public Excel(string sheetName,string path,List<string[]> v)
+        public Excel(string sheetName,string path,List<string[]> body,string[] header)
         {
+            if (body[0].Length != header.Length)
+                throw new System.Exception("Le colonne sono diverse!");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
             {
                 // Add a WorkbookPart to the document.
@@ -34,16 +36,23 @@ namespace OpenXmlDllProject
                 };
 
                 Row row = new Row() { RowIndex = 1 };
-                Cell header1 = new Cell() { CellReference = "A1", CellValue = new CellValue("Interval Period Timestamp"), DataType = CellValues.String };
-                row.Append(header1);
-                Cell header2 = new Cell() { CellReference = "B1", CellValue = new CellValue("Settlement Interval"), DataType = CellValues.String };
-                row.Append(header2);
-                Cell header3 = new Cell() { CellReference = "C1", CellValue = new CellValue("Aggregated Consumption Factor"), DataType = CellValues.String };
-                row.Append(header3);
-                Cell header4 = new Cell() { CellReference = "D1", CellValue = new CellValue("Loss Adjusted Aggregated Consumption"), DataType = CellValues.String };
-                row.Append(header4);
-
+                for (int i = 0; i < header.Length; i++)
+                {
+                    Cell c = new Cell() { CellValue = new CellValue(header[i]), DataType = CellValues.String };
+                    row.Append(c);
+                }
                 sheetData.Append(row);
+
+                foreach (var v in body)
+                {
+                    Row r = new Row();
+                    for (int i = 0; i < v.Length; i++)
+                    {
+                        Cell c = new Cell() {CellValue = new CellValue(v[i]), DataType = CellValues.String };
+                        r.Append(c);
+                    }
+                    sheetData.Append(r);
+                }
 
                 sheets.Append(sheet);
 

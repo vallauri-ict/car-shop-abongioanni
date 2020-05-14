@@ -8,6 +8,7 @@ namespace ConsoleAppProject {
     internal class Program {
         private static void Main()
         {
+            bool created = false;
             string foo = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Car-shop");
             string accessDbPath;
 
@@ -34,6 +35,7 @@ namespace ConsoleAppProject {
             try
             {
                 listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli;"));
+                created = true;
             }
             catch (OleDbException e)
             {
@@ -51,6 +53,11 @@ namespace ConsoleAppProject {
                 }
                 Console.Write("\n# ");
                 scelta = Console.ReadLine();
+                if (!created && scelta.ToUpper().Split(' ')[0]!="TCREATE")
+                {
+                    Console.WriteLine("\nIl database non è ancora stato creato!");
+                    continue;
+                }
 
                 switch (scelta.ToUpper().Split(' ')[0])
                 {
@@ -212,6 +219,7 @@ namespace ConsoleAppProject {
                                 vc.DropTable(connString);
                                 Console.WriteLine("Database eliminato!");
                                 listaVeicoli.Clear();
+                                created = false;
                             }
                             catch (OleDbException e)
                             {
@@ -231,6 +239,7 @@ namespace ConsoleAppProject {
                                 vc.CreateTable(connString);
                                 Console.WriteLine("Database creato!");
                                 listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli;"));
+                                created = true;
                             }
                             catch (OleDbException e)
                             {

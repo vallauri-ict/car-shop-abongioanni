@@ -110,7 +110,7 @@ namespace VenditaVeicoliDllProject {
             return l;
         }
 
-        public DataTable GetRows(string connString, string sqlString)
+        public DataTable GetRows(string connString, string sqlString="SELECT * FROM Veicoli")
         {
             DataTable t = new DataTable();
             using (OleDbConnection connection = new OleDbConnection(connString)) //data reader: oggetto per recuperare dati

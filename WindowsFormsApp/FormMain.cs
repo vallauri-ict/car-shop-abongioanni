@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -121,12 +120,6 @@ namespace WindowsFormsApp {
 
         public void FormMain_Load(object sender, EventArgs e)
         {
-            try
-            {
-                vc.CreateTable(connString);
-            }
-            catch (OleDbException) { }
-
             //RESET SCHERMATA
             this.pnlMain.Controls.Clear();
             this.tMain.Select();
@@ -138,7 +131,14 @@ namespace WindowsFormsApp {
             listaVeicoliAggiunti.Clear();
             listaVeicoli.Clear();
 
-            listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString, "SELECT * FROM Veicoli"));
+            try
+            {
+                listaVeicoli = vc.GetVeicoliList(vc.GetRows(connString));
+            }
+            catch (OleDbException) {
+                MessageBox.Show("Il database deve essere ancora creato, chiedi all'amministratore di inizializzare il db!", Properties.Resources.PROGRAM_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
 
             foreach (var item in listaVeicoli)
             {//CREO LE CARTE GRAFICHE
@@ -146,7 +146,7 @@ namespace WindowsFormsApp {
                 this.pnlMain.Controls.Add(c);
                 c.CardDeleted += Handler_CardDeleted;
                 c.CardShowed += Handler_CardShowed;
-                c.ImmagineCambiata +=Handler_ImageUpdate;
+                c.ImmagineCambiata += Handler_ImageUpdate;
             }
         }//FORM LOAD
 
@@ -458,10 +458,10 @@ namespace WindowsFormsApp {
             try
             {
                 Word w = new Word();
-                string s = string.Join(" ",search);
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino" + (this.Tb.SelectedTab == tRicerca && this.results != null ? " "+s : "") + ".docx";
-                WordprocessingDocument doc = w.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx"));
-                
+                string s = string.Join(" ", search);
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino" + (this.Tb.SelectedTab == tRicerca && this.results != null ? " " + s : "") + ".docx";
+                WordprocessingDocument doc = w.CreateWordFile("SALONE VENDITA VEICOLI NUOVI E USATI", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? s : "") + ".docx"));
+
                 var mainPart = doc.MainDocumentPart.Document;
                 Body body = mainPart.GetFirstChild<Body>();
 
@@ -510,9 +510,9 @@ namespace WindowsFormsApp {
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
             Excel xls = new Excel();
-            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ",search) : "") + ".xlsx");
-            SpreadsheetDocument d= xls.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
-            
+            string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ", search) : "") + ".xlsx");
+            SpreadsheetDocument d = xls.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
+
             MessageBox.Show("Il documento è pronto!");
             //Process.Start(path);
         }//ESPORTA I DATI DEI VEICOLI CREANDO UN FOGLIO DI CALCOLO EXCEL

@@ -21,6 +21,11 @@ namespace CustomControlsProject {
             this.textBox3.Text = r2;
             this.textBox2.Text = r1;
             this.textBox1.Text = header;
+            this.textBox2.TextChanged += new System.EventHandler(this.Txt_TextChanged);
+            this.textBox3.TextChanged += new System.EventHandler(this.Txt_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.Txt_TextChanged);
+            this.textBox4.TextChanged += new System.EventHandler(this.Txt_TextChanged);
+
         }
 
         private void ChangeIcon_Click(object sender, EventArgs e)

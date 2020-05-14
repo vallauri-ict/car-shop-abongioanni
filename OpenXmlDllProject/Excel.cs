@@ -1,13 +1,14 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-
+using System.Collections.Generic;
 
 namespace OpenXmlDllProject
 {
     public class Excel
     {
-        public Excel(string sheetName,string path)
+        public Excel(string sheetName,string path,List<string[]> v)
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
             {

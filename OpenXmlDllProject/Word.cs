@@ -216,54 +216,26 @@ namespace OpenXmlDllProject
             paragraph.Append(r);
         }
 
-        public void CreateBulletNumberingPart(MainDocumentPart mainPart, string bulletChar = "-")
+        public List<Paragraph> CreateBulletList(string[] v)
         {
-            NumberingDefinitionsPart numberingPart =
-                        mainPart.AddNewPart<NumberingDefinitionsPart>("NDPBullet");
-            Numbering element =
-              new Numbering(
-                new AbstractNum(
-                  new Level(
-                    new NumberingFormat() { Val = NumberFormatValues.Bullet },
-                    new LevelText() { Val = bulletChar }
-                  )
-                  { LevelIndex = 0 }
-                )
-                { AbstractNumberId = 1 },
-                new NumberingInstance(
-                  new AbstractNumId() { Val = 1 }
-                )
-                { NumberID = 1 });
-            element.Save(numberingPart);
-        }
-
-        public void CreateBulletOrNumberedList(int indentLeft, int indentHanging, List<Paragraph> paragraphs, int numberOfParagraph, string[] texts, bool isBullet = true)
-        {
-            int numberingLevelReference, numberingId;
-            if (isBullet)
-            {
-                numberingLevelReference = 0;
-                numberingId = 1;
-            }
-            else
-            {
-                numberingLevelReference = 1;
-                numberingId = 2;
-            }
-
+            List<Paragraph> retVal = new List<Paragraph>();
             SpacingBetweenLines sbl = new SpacingBetweenLines() { After = "0" };
-            Indentation indent = new Indentation() { Left = indentLeft.ToString(), Hanging = indentHanging.ToString() };
+            Indentation indent = new Indentation() { Left = "100", Hanging = "200" };
             NumberingProperties np = new NumberingProperties(
-                new NumberingLevelReference() { Val = numberingLevelReference },
-                new NumberingId() { Val = numberingId }
+                new NumberingLevelReference() { Val = 0 },
+                new NumberingId() { Val = 1 }
             );
-            ParagraphProperties ppUnordered = new ParagraphProperties(np, sbl, indent)
+            ParagraphProperties ppUnordered = new ParagraphProperties(np, sbl, indent);
+            ppUnordered.ParagraphStyleId = new ParagraphStyleId() { Val = "ListParagraph" };
+            for (int i = 0; i < v.Length; i++)
             {
-                ParagraphStyleId = new ParagraphStyleId() { Val = "ListParagraph" }
-            };
-
-            for (int i = 0; i < numberOfParagraph; i++)
-                InsertParagraphInList(paragraphs, ppUnordered, texts[i]);
+                // Pargraph
+                Paragraph p1 = new Paragraph();
+                p1.ParagraphProperties = new ParagraphProperties(ppUnordered.OuterXml);
+                p1.Append(new Run(new Text(v[i])));
+                retVal.Add(p1);
+            }
+            return retVal;
         }
 
         public void InsertParagraphInList(List<Paragraph> paragraphs, ParagraphProperties ppUnordered, string text)

@@ -163,16 +163,6 @@ namespace VenditaVeicoliDllProject {
                     };//ARRAY DI DATI PER FACILITARE LA CREAZIONE DI OGGETTI
         }
 
-        public string GetProperties()
-        {
-            return
-                this.Marca.ToUpper() + " " +
-                this.Modello.ToUpper() + " " +
-                this.Cilindrata.ToString().ToUpper() + " " +
-                (this.IsUsato ? "USATO USATA USATE USATI " : "NUOVO NUOVE NUOVA NUOVI ") +
-                this.Colore;
-        }
-
         public string GetPrezzo()
         {
             return this.Prezzo.ToString("C2").Replace("£", "€");
@@ -223,7 +213,6 @@ namespace VenditaVeicoliDllProject {
         public double Prezzo { get => this.prezzo; set => this.prezzo = value; }
         public string ImagePath { get; set; }
         public string Stato { get { return this.IsUsato ? "Usato" : "Nuovo"; } }
-
         public string Targa { get => this.targa; set => this.targa = value; }
 
         public override string ToString() => $"{this.Marca} - {this.Modello}({this.Colore}) immatricolata il {this.Immatricolazione.ToShortDateString()}";

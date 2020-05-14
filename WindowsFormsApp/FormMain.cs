@@ -509,10 +509,8 @@ namespace WindowsFormsApp {
 
         private void ExportToExcelSpreadSheet_Click(object sender, EventArgs e)
         {
-            Excel xls = new Excel();
             string path = (Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Volantino " + (this.Tb.SelectedTab == tRicerca && this.results != null ? string.Join(" ", search) : "") + ".xlsx");
-            SpreadsheetDocument d = xls.CreateExcelFile<Veicolo>((this.Tb.SelectedTab == tRicerca && this.results != null ? results.ToList() : listaVeicoli.ToList()), path);
-
+            Excel xls = new Excel("Veicoli",path);
             MessageBox.Show("Il documento è pronto!");
             //Process.Start(path);
         }//ESPORTA I DATI DEI VEICOLI CREANDO UN FOGLIO DI CALCOLO EXCEL

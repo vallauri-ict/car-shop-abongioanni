@@ -8,9 +8,11 @@ namespace VenditaVeicoliDllProject {
 
     public class VeicoliCommands {
         private abstract class VeicoloCommand {
+
             internal OleDbCommand cmd;
             public VeicoloCommand(OleDbConnection c) { cmd = new OleDbCommand { Connection = c }; }
             public OleDbCommand GetCommand() { return cmd; }
+
             public void AggiungiParametri(Veicolo v)
             {
                 
